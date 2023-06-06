@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -14,7 +15,8 @@
         android:gravity="start"
         android:paddingStart="@dimen/sixteenDP"
         android:paddingTop="14dp"
-        android:textAppearance="@style/title"/>
+        android:textAppearance="@style/title"
+        tools:ignore="RtlSymmetry" />
 
     <Button
         android:id="@+id/search"
