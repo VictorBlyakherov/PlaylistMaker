@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    style="@style/settingsBackground"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,6 +14,7 @@
         android:orientation="horizontal">
 
         <ImageButton
+            style="@style/backButton"
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -23,9 +25,11 @@
             android:src="@drawable/back_svg"
             android:contentDescription="@string/back"
             android:layout_gravity="center_vertical"
-            android:backgroundTint="@color/white"/>
+            android:backgroundTint="?attr/colorOnPrimary"
+            />
 
         <TextView
+            style="@style/dayNightTextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
@@ -33,7 +37,6 @@
             android:layout_gravity="start"
             android:gravity="center_vertical"
             android:text="@string/settings"
-            android:textColor="@color/black"
             android:textSize="22sp"
             android:textStyle="normal"
             android:fontFamily="@font/ys_font"
@@ -48,17 +51,8 @@
         android:paddingEnd="18dp">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="16dp"
-            android:text="@string/black_theme"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sixteenSP"
-            android:textStyle="normal"
-            android:fontFamily="@font/ys_font"
-            android:textFontWeight="400"/>
+            style="@style/settingMenuElement"
+            android:text="@string/black_theme"/>
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:layout_width="@dimen/fortyEightDP"
@@ -73,31 +67,13 @@
         android:paddingEnd="8dp">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="16dp"
-            android:text="@string/share_application"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sixteenSP"
-            android:textStyle="normal"
-            android:fontFamily="@font/ys_font"
-            android:textFontWeight="400"/>
+            style="@style/settingMenuElement"
+            android:text="@string/share_application"/>
 
         <Button
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="@dimen/fortyEightDP"
-            android:layout_height="@dimen/fortyEightDP"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/white"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            app:icon="@drawable/share_svg"
-            app:iconGravity="end"
-            app:iconTint="@color/gray" />
+            android:id="@+id/share"
+            style="@style/settingsButton"
+            app:icon="@drawable/share_svg"/>
     </LinearLayout>
 
     <LinearLayout
@@ -107,31 +83,13 @@
         android:paddingEnd="8dp">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="16dp"
-            android:text="@string/call_support"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sixteenSP"
-            android:textStyle="normal"
-            android:fontFamily="@font/ys_font"
-            android:textFontWeight="400"/>
+            style="@style/settingMenuElement"
+            android:text="@string/call_support"/>
 
         <Button
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="@dimen/fortyEightDP"
-            android:layout_height="@dimen/fortyEightDP"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/white"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            app:icon="@drawable/support_svg"
-            app:iconGravity="end"
-            app:iconTint="@color/gray" />
+            android:id="@+id/sendToSupport"
+            style="@style/settingsButton"
+            app:icon="@drawable/support_svg"/>
     </LinearLayout>
 
     <LinearLayout
@@ -141,31 +99,13 @@
         android:paddingEnd="8dp">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="16dp"
-            android:text="@string/user_agreement"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sixteenSP"
-            android:textStyle="normal"
-            android:fontFamily="@font/ys_font"
-            android:textFontWeight="400"/>
+            style="@style/settingMenuElement"
+            android:text="@string/user_agreement"/>
 
         <Button
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="@dimen/fortyEightDP"
-            android:layout_height="@dimen/fortyEightDP"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/white"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            app:icon="@drawable/user_license"
-            app:iconGravity="end"
-            app:iconTint="@color/gray" />
+            android:id="@+id/viewUserAgreement"
+            style="@style/settingsButton"
+            app:icon="@drawable/user_license"/>
     </LinearLayout>
 
 </LinearLayout>
