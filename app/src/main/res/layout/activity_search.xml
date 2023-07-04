@@ -1,9 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    style="@style/settingsBackground"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            style="@style/backButton"
+            android:id="@+id/backSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="28dp"
+            android:paddingBottom="44dp"
+            android:src="@drawable/back_svg"
+            android:contentDescription="@string/back"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="?attr/colorOnPrimary"
+            />
+
+        <TextView
+            style="@style/dayNightTextColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingBottom="44dp"
+            android:layout_gravity="start"
+            android:gravity="center_vertical"
+            android:text="@string/search"
+            android:textSize="22sp"
+            android:textStyle="normal"
+            android:fontFamily="@font/ys_font"
+            android:textFontWeight="500"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/searchContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/sixteenDP"
+        android:background="@drawable/rounded_edit_text">
+>
+
+        <EditText
+            android:id="@+id/searchEditText"
+            style="@style/searchEditText"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:inputType="text"
+            android:hint="@string/search"
+            android:lines="1"
+            android:layout_weight="1"
+            android:maxLength="30"
+            android:paddingLeft="@dimen/sixteenDP"
+            android:textColor="@color/black"
+            android:background="@android:color/transparent"
+            />
+
+        <ImageView
+            android:id="@+id/clearIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>
