@@ -45,24 +45,27 @@
     </LinearLayout>
 
     <LinearLayout
+        style="@style/searchContainer"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sixtyOneDP"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="@dimen/sixteenDP"
-        android:paddingEnd="18dp">
+        android:layout_margin="@dimen/sixteenDP"
+        android:background="@drawable/rounded_edit_text">
+>
 
         <EditText
             android:id="@+id/searchEditText"
             style="@style/searchEditText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="36dp"
             android:inputType="text"
             android:hint="@string/search"
-            android:drawablePadding="@dimen/tenDP"
             android:lines="1"
             android:layout_weight="1"
             android:maxLength="30"
             android:paddingLeft="@dimen/sixteenDP"
+            android:textColor="@color/black"
+            android:background="@android:color/transparent"
             />
 
         <ImageView

@@ -46,12 +46,18 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sixtyOneDP"
+        android:layout_height="64dp"
         android:orientation="horizontal"
         android:paddingEnd="18dp">
 
         <TextView
+            android:id="@+id/blackThemeView"
             style="@style/settingMenuElement"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/sixteenDP"
             android:text="@string/black_theme"/>
 
         <com.google.android.material.switchmaterial.SwitchMaterial
@@ -62,49 +68,91 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sixtyOneDP"
+        android:layout_height="64dp"
         android:orientation="horizontal"
         android:paddingEnd="8dp">
 
         <TextView
+            android:id="@+id/shareView"
             style="@style/settingMenuElement"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/sixteenDP"
             android:text="@string/share_application"/>
 
         <Button
             android:id="@+id/share"
             style="@style/settingsButton"
+            android:layout_width="@dimen/fortyEightDP"
+            android:layout_height="@dimen/fortyEightDP"
+            android:layout_gravity="center"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:insetTop="0dp"
+            app:iconGravity="end"
             app:icon="@drawable/share_svg"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sixtyOneDP"
+        android:layout_height="64dp"
         android:orientation="horizontal"
         android:paddingEnd="8dp">
 
         <TextView
+            android:id="@+id/supportView"
             style="@style/settingMenuElement"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/sixteenDP"
             android:text="@string/call_support"/>
 
         <Button
             android:id="@+id/sendToSupport"
             style="@style/settingsButton"
+            android:layout_width="@dimen/fortyEightDP"
+            android:layout_height="@dimen/fortyEightDP"
+            android:layout_gravity="center"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:insetTop="0dp"
+            app:iconGravity="end"
             app:icon="@drawable/support_svg"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/sixtyOneDP"
+        android:layout_height="64dp"
         android:orientation="horizontal"
         android:paddingEnd="8dp">
 
         <TextView
+            android:id="@+id/userAgreementView"
             style="@style/settingMenuElement"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/sixteenDP"
             android:text="@string/user_agreement"/>
 
         <Button
             android:id="@+id/viewUserAgreement"
             style="@style/settingsButton"
+            android:layout_width="@dimen/fortyEightDP"
+            android:layout_height="@dimen/fortyEightDP"
+            android:layout_gravity="center"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:insetTop="0dp"
+            app:iconGravity="end"
             app:icon="@drawable/user_license"/>
     </LinearLayout>
 

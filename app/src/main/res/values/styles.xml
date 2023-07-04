@@ -3,14 +3,10 @@
 
     <style name="title">
         <item name="android:textSize">22sp</item>
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="mainButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_marginLeft">@dimen/sixteenDP</item>
-        <item name="android:layout_marginRight">@dimen/sixteenDP</item>
-        <item name="android:layout_weight">1</item>
         <item name="android:backgroundTint">@color/white</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textStyle">normal</item>
@@ -24,11 +20,6 @@
     </style>
 
     <style name="settingMenuElement">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:layout_marginLeft">@dimen/sixteenDP</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/sixteenSP</item>
         <item name="android:textStyle">normal</item>
@@ -37,21 +28,13 @@
     </style>
 
     <style name="settingsButton" parent="android:Widget.Material.Button.Borderless">
-        <item name="android:layout_width">@dimen/fortyEightDP</item>
-        <item name="android:layout_height">@dimen/fortyEightDP</item>
-        <item name="android:layout_gravity">center</item>
         <item name="android:backgroundTint">@color/white</item>
-        <item name="android:insetLeft">0dp</item>
-        <item name="android:insetRight">0dp</item>
-        <item name="android:insetBottom">0dp</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="iconGravity">end</item>
         <item name="android:textFontWeight">400</item>
         <item name="iconTint">@color/gray</item>
     </style>
 
     <style name="mainBackground">
-        <item name="android:background">#3772E7</item>
+        <item name="android:background">@color/blue_background</item>
     </style>
 
     <style name="settingsBackground">
@@ -67,10 +50,14 @@
     </style>
 
     <style name="searchEditText">
-        <item name="android:textColorHint">#AEAFB4</item>
-        <item name="android:background">@drawable/rounded_edit_text</item>
+        <item name="android:textColorHint">@color/light_gray</item>
+
         <item name="android:drawableLeft">@drawable/search_icon_gray</item>
 
+    </style>
+
+    <style name="searchContainer">
+        <item name="android:background">@drawable/rounded_edit_text</item>
     </style>
 
 </resources>
