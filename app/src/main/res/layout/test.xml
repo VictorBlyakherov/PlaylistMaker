@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TableRow>
+        <ImageView
+            android:id="@+id/trackCover"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/user_license"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_margin="12dp">
+
+            <TextView
+                android:id="@+id/trackName"
+                style="@style/searchResultMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yesterday (Remastered 2009)"
+                android:textSize="16sp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/artistName"
+                    style="@style/searchResultOther"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="The Beatles"
+                    android:textSize="11sp"/>
+
+                <ImageView
+                    style="@style/searchArrow"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:src="@drawable/dot_day"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/trackTime"
+                    style="@style/searchResultOther"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4:01"
+                    android:textSize="11sp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            style="@style/searchArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/day_arrow"
+
+            android:layout_gravity="center"/>
+
+</TableRow>
+
+</TableLayout>
+
