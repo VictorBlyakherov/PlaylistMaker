@@ -56,16 +56,19 @@
             android:layout_weight="1"
             android:maxLength="30"
             android:paddingLeft="@dimen/sixteenDP"
+            android:drawablePadding="12dp"
             android:textColor="@color/black"
             android:background="@android:color/transparent"
             />
 
         <ImageView
             android:id="@+id/clearIcon"
+            style="@style/clearIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingRight="12dp"
             android:layout_gravity="center"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:src="@drawable/clear"
             android:visibility="gone"/>
     </LinearLayout>
 

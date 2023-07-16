@@ -84,4 +84,8 @@
         <item name="android:tint">@color/white</item>
     </style>
 
+    <style name="clearIcon">
+        <item name="android:tint">@color/black</item>
+    </style>
+
 </resources>

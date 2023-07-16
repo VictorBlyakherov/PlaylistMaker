@@ -32,7 +32,7 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         Glide.with(itemView)
             .load(model.artworkUrl100)
-            .placeholder(R.drawable.media_svg)
+            .placeholder(R.drawable.placeholder)
             .centerInside()
             .transform(RoundedCorners(10))
             .into(trackImage)

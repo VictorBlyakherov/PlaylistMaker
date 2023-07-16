@@ -72,4 +72,8 @@
         <item name="android:tint">@color/gray</item>
     </style>
 
+    <style name="clearIcon">
+        <item name="android:tint">@color/gray</item>
+    </style>
+
 </resources>
