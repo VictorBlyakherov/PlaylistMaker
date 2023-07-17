@@ -72,4 +72,20 @@
         <item name="android:background">@drawable/rounded_edit_text_night</item>
     </style>
 
+    <style name="searchResultMain">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="searchResultOther">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="searchArrow">
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <style name="clearIcon">
+        <item name="android:tint">@color/black</item>
+    </style>
+
 </resources>
