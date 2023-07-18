@@ -48,7 +48,7 @@
         <EditText
             android:id="@+id/searchEditText"
             style="@style/searchEditText"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="36dp"
             android:inputType="text"
             android:hint="@string/search"
@@ -59,6 +59,8 @@
             android:drawablePadding="12dp"
             android:textColor="@color/black"
             android:background="@android:color/transparent"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
             />
 
         <ImageView
@@ -72,9 +74,72 @@
             android:visibility="gone"/>
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/notFound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/not_found_png"
+        android:layout_gravity="center"
+        android:paddingTop="80dp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/notFoundText"
+        style="@style/searchResultMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="19sp"
+        android:fontFamily="@font/ys_font"
+        android:text="@string/notFound"
+        android:paddingTop="12dp"
+        android:visibility="gone"
+        />
+
+
+    <ImageView
+        android:id="@+id/technicalError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/technical_error"
+        android:layout_gravity="center"
+        android:paddingTop="80dp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/technicalErrorText"
+        style="@style/searchResultMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="19sp"
+        android:fontFamily="@font/ys_font"
+        android:text="@string/techError"
+        android:paddingTop="12dp"
+        android:visibility="gone"
+        />
+
+    <Button
+        style="@style/refreshButton"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/technicalErrorButton"
+        app:cornerRadius="54dp"
+        android:text="@string/refresh"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        android:layout_gravity="center"
+        android:fontFamily="@font/ys_font"
+        android:visibility="gone"/>
+
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trackList"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+
 
 </LinearLayout>

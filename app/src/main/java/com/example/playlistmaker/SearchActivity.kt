@@ -1,17 +1,32 @@
 package com.example.playlistmaker
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Converter.Factory
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Query
 import kotlin.random.Random
 
 class SearchActivity : AppCompatActivity() {
@@ -20,16 +35,64 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var inputEditText: EditText
     private lateinit var buttonBack: ImageButton
     private lateinit var clearButton: ImageView
+    private lateinit var notFoundImage: ImageView
+    private lateinit var notFoundText: TextView
+    private lateinit var technicalError: ImageView
+    private lateinit var technicalErrorText: TextView
+    private lateinit var technicalErrorButton: Button
+
     private val trackList: MutableList<Track> = ArrayList()
 
+    private val appleBaseUrl = "https://itunes.apple.com"
 
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(appleBaseUrl)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    private val appleTrackService = retrofit.create(AppleMusicApi::class.java)
+
+    private fun showNotFoundElements(){
+        notFoundImage.visibility = View.VISIBLE
+        notFoundText.visibility = View.VISIBLE
+    }
+
+    private fun showTechnicalErrorElements(){
+        technicalError.visibility = View.VISIBLE
+        technicalErrorText.visibility = View.VISIBLE
+        technicalErrorButton.visibility = View.VISIBLE
+    }
+
+    private fun hideNotFoundElements(){
+        notFoundImage.visibility = View.GONE
+        notFoundText.visibility = View.GONE
+    }
+
+    private fun hideTechnicalErrorElements(){
+        technicalError.visibility = View.GONE
+        technicalErrorText.visibility = View.GONE
+        technicalErrorButton.visibility = View.GONE
+    }
+
+
+
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        fillTrackList()
-        inputEditText = findViewById<EditText>(R.id.searchEditText)
+//        fillTrackList()
+        inputEditText = findViewById(R.id.searchEditText)
 
-        buttonBack = findViewById<ImageButton>(R.id.backSearch)
+        buttonBack = findViewById(R.id.backSearch)
+
+        notFoundImage = findViewById(R.id.notFound)
+        notFoundText = findViewById(R.id.notFoundText)
+
+        technicalError = findViewById(R.id.technicalError)
+        technicalErrorText = findViewById(R.id.technicalErrorText)
+        technicalErrorButton = findViewById(R.id.technicalErrorButton)
+
+
 
         buttonBack.setOnClickListener {
             this.finish()
@@ -38,8 +101,20 @@ class SearchActivity : AppCompatActivity() {
 
         clearButton = findViewById<ImageView>(R.id.clearIcon)
 
+        val recycler = findViewById<RecyclerView>(R.id.trackList)
+        val adapter = TrackAdapter(trackList)
+
+        recycler.layoutManager = LinearLayoutManager(this)
+        recycler.adapter = adapter
+
+
         clearButton.setOnClickListener {
             inputEditText.setText("")
+            trackList.clear()
+            adapter.notifyDataSetChanged()
+            hideNotFoundElements()
+            hideTechnicalErrorElements()
+
             val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(inputEditText.windowToken, 0)
 
@@ -61,10 +136,53 @@ class SearchActivity : AppCompatActivity() {
         }
         inputEditText.addTextChangedListener(simpleTextWatcher)
 
-        val recycler = findViewById<RecyclerView>(R.id.trackList)
-        val tracks = trackList
-        recycler.layoutManager = LinearLayoutManager(this)
-        recycler.adapter = TrackAdapter(tracks)
+        fun searchTrack() {
+            if (searchText.isNotEmpty()) {
+                trackList.clear()
+                adapter.notifyDataSetChanged()
+                appleTrackService.findTrack(searchText).enqueue(object : Callback<TrackResponse> {
+                    @SuppressLint("NotifyDataSetChanged")
+                    override fun onResponse(call: Call<TrackResponse>,
+                                            response: Response<TrackResponse>) {
+                        if (response.code() == 200) {
+
+
+                            if (response.body()?.results?.isNotEmpty() == true) {
+                                Log.d("resp1", "Not empty list")
+                                trackList.addAll(response.body()?.results!!)
+                                adapter.notifyDataSetChanged()
+                                hideNotFoundElements()
+                                hideTechnicalErrorElements()
+                            }
+                            if (trackList.isEmpty()) {
+                                showNotFoundElements()
+                            }
+                        } else {
+                            showTechnicalErrorElements()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                        showTechnicalErrorElements()
+                    }
+
+                })
+            }
+        }
+
+
+        inputEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                searchTrack()
+            }
+            false
+        }
+
+        technicalErrorButton.setOnClickListener {
+            searchTrack()
+        }
+
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -84,24 +202,6 @@ class SearchActivity : AppCompatActivity() {
         } else {
             View.VISIBLE
         }
-    }
-
-    private fun fillTrackList() {
-        var track = Track("Smells Like Teen Spirit", "Nirvana", "5:01", "https://is5-ssl.mzstatic.com/image/thumb/Music115/v4/7b/58/c2/7b58c21a-2b51-2bb2-e59a-9bb9b96ad8c3/00602567924166.rgb.jpg/100x100bb.jpg")
-        trackList.add(track)
-
-        track = Track("Billie Jean", "Michael Jackson", "4:35", "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/3d/9d/38/3d9d3811-71f0-3a0e-1ada-3004e56ff852/827969428726.jpg/100x100bb.jpg")
-        trackList.add(track)
-
-        track = Track("Stayin' Alive", "Bee Gees", "4:10", "https://is4-ssl.mzstatic.com/image/thumb/Music115/v4/1f/80/1f/1f801fc1-8c0f-ea3e-d3e5-387c6619619e/16UMGIM86640.rgb.jpg/100x100bb.jpg")
-        trackList.add(track)
-
-        track = Track("Whole Lotta Love", "Led Zeppelin", "5:33", "https://is2-ssl.mzstatic.com/image/thumb/Music62/v4/7e/17/e3/7e17e33f-2efa-2a36-e916-7f808576cf6b/mzm.fyigqcbs.jpg/100x100bb.jpg")
-        trackList.add(track)
-
-        track = Track("Sweet Child O'Mine", "Guns N' Roses", "5:03", "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/a0/4d/c4/a04dc484-03cc-02aa-fa82-5334fcb4bc16/18UMGIM24878.rgb.jpg/100x100bb.jpg")
-        trackList.add(track)
-
     }
 
     companion object {
