@@ -84,8 +84,16 @@
         <item name="android:tint">@color/white</item>
     </style>
 
+
     <style name="clearIcon">
         <item name="android:tint">@color/black</item>
     </style>
+
+    <style name="refreshButton">
+        <item name="backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+
+    </style>
+
 
 </resources>

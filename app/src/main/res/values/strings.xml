@@ -13,5 +13,8 @@
     <string name="subjectSupport">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="fromAddressSupport">xxxxxvic@yandex.ru</string>
     <string name="userAgreementLink">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="notFound">Ничего не нашлось</string>
+    <string name="techError">Проблемы со связью\n\nЗагрузка не удалась. Проверьте\nподключение к интернету</string>
+    <string name="refresh">Обновить</string>
 
 </resources>
