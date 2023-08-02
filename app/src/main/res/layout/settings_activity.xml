@@ -61,6 +61,7 @@
             android:text="@string/black_theme"/>
 
         <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/themeSwitch"
             android:layout_width="@dimen/fortyEightDP"
             android:layout_height="@dimen/fortyEightDP"
             android:layout_gravity="center"/>

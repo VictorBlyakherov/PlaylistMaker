@@ -110,11 +110,54 @@
         android:fontFamily="@font/ys_font"
         android:visibility="gone"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/trackList"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        
+        <TextView
+            android:id="@+id/searchHistoryText"
+            style="@style/searchResultMain"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="@string/historySearch"
+            android:textSize="19sp"
+            android:textFontWeight="500"
+            android:gravity="center"
+            android:fontFamily="@font/ys_font"
+            android:visibility="gone"
+            />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/historyList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            />
+
+        <Button
+            style="@style/refreshButton"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/clearHistoryButton"
+            app:cornerRadius="54dp"
+            android:text="@string/clearHistory"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/ys_font"
+            android:visibility="gone"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/trackList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            />
+
+    </LinearLayout>
 
 
 </LinearLayout>

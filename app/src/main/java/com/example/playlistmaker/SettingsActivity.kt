@@ -1,72 +1,67 @@
 package com.example.playlistmaker
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import com.example.playlistmaker.databinding.SettingsActivityBinding
+
+
 
 class SettingsActivity : AppCompatActivity() {
 
-    private lateinit var buttonBack: ImageButton
-    private lateinit var buttonShare: Button
-    private lateinit var viewShare: TextView
-    private lateinit var buttonSendToSupport: Button
-    private lateinit var viewSendToSupport: TextView
-    private lateinit var buttonViewUserAgreement: Button
-    private lateinit var userAgreementView: TextView
-
+    private lateinit var binding: SettingsActivityBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.settings_activity)
 
-        buttonBack = findViewById<ImageButton>(R.id.back)
+        binding = SettingsActivityBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        buttonBack.setOnClickListener {
+        setSwitcherTheme()
+
+        binding.themeSwitch.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+            (applicationContext as App).switchTheme(isChecked)
+        })
+
+        binding.back.setOnClickListener {
             this.finish()
         }
 
-        buttonShare = findViewById<Button>(R.id.share)
-        viewShare = findViewById<TextView>(R.id.shareView)
-
-        buttonShare.setOnClickListener {
+        binding.share.setOnClickListener {
             shareAction()
         }
 
-        viewShare.setOnClickListener {
+        binding.shareView.setOnClickListener {
             shareAction()
         }
 
-        buttonSendToSupport = findViewById<Button>(R.id.sendToSupport)
-        viewSendToSupport = findViewById<TextView>(R.id.supportView)
-
-        buttonSendToSupport.setOnClickListener {
+        binding.sendToSupport.setOnClickListener {
             sendToSupportAction()
         }
 
-        viewSendToSupport.setOnClickListener {
+        binding.supportView.setOnClickListener {
             sendToSupportAction()
         }
 
-
-        buttonViewUserAgreement = findViewById<Button>(R.id.viewUserAgreement)
-        userAgreementView = findViewById<TextView>(R.id.userAgreementView)
-
-        buttonViewUserAgreement.setOnClickListener {
+        binding.viewUserAgreement.setOnClickListener {
             userAgreementAction()
         }
 
-        userAgreementView.setOnClickListener {
+        binding.viewUserAgreement .setOnClickListener {
             userAgreementAction()
         }
-
-
-
     }
+
+    private fun setSwitcherTheme() {
+        binding.themeSwitch.isChecked = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+    }
+
 
     private fun userAgreementAction() {
         val link = getString(R.string.userAgreementLink)

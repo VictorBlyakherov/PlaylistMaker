@@ -2,12 +2,16 @@ package com.example.playlistmaker
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
+import android.opengl.Visibility
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.databinding.ActivitySearchBinding
@@ -21,11 +25,16 @@ enum class SearchStatuses {
     SUCCESS, EMPTY_RESULT, CONNECTION_ERROR
 }
 
+const val PLAYLIST_HISTORY = "playlist_history"
+
 class SearchActivity : AppCompatActivity() {
+    private lateinit var sharedPrefs: SharedPreferences
+
+    private lateinit var searchHistory: SearchHistory
 
     private var searchText: String = ""
 
-    private val RESPONSE_OK_CODE: Int = 200
+    private val RESPONSEOKCODE: Int = 200
 
     private lateinit var binding: ActivitySearchBinding
 
@@ -35,11 +44,23 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var adapter: TrackAdapter
 
+    private lateinit var adapterHistory: TrackAdapter
+
     private val retrofit =
         Retrofit.Builder().baseUrl(appleBaseUrl).addConverterFactory(GsonConverterFactory.create())
             .build()
 
     private val appleTrackService = retrofit.create(AppleMusicApi::class.java)
+
+    fun onTrackClick(view: View?) {
+        val trackId = view?.findViewById<TextView>(R.id.trackId)?.text
+        if (!trackId.isNullOrEmpty()) {
+            val track = trackList.find { it.trackId == trackId.toString().toInt() }
+            if (track != null) {
+                searchHistory.addTrack(track)
+            }
+        }
+    }
 
     private fun setElements(status: SearchStatuses) {
         if (status == SearchStatuses.SUCCESS) {
@@ -82,7 +103,7 @@ class SearchActivity : AppCompatActivity() {
                 override fun onResponse(
                     call: Call<TrackResponse>, response: Response<TrackResponse>
                 ) {
-                    if (response.code() == RESPONSE_OK_CODE) {
+                    if (response.code() == RESPONSEOKCODE) {
                         if (response.body()?.results?.isNotEmpty() == true) {
                             trackList.addAll(response.body()?.results!!)
                             adapter.notifyDataSetChanged()
@@ -107,6 +128,11 @@ class SearchActivity : AppCompatActivity() {
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        sharedPrefs = getSharedPreferences(PLAYLIST_HISTORY, MODE_PRIVATE)
+
+        searchHistory = SearchHistory(sharedPrefs)
+
         binding = ActivitySearchBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
@@ -117,8 +143,14 @@ class SearchActivity : AppCompatActivity() {
 
         adapter = TrackAdapter(trackList)
 
+        searchHistory.getHistoryList()
+        adapterHistory = TrackAdapter(searchHistory.trackHistoryList)
+
         binding.trackList.layoutManager = LinearLayoutManager(this)
         binding.trackList.adapter = adapter
+
+        binding.historyList.layoutManager = LinearLayoutManager(this)
+        binding.historyList.adapter = adapterHistory
 
 
         binding.clearIcon.setOnClickListener {
@@ -133,6 +165,12 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 binding.clearIcon.visibility = clearButtonVisibility(s)
                 searchText = s.toString()
+                if (binding.searchEditText.hasFocus() && s.isNullOrEmpty()) {
+                    showTrackHistory()
+                } else {
+                    hideTrackHistory()
+                }
+
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -150,6 +188,20 @@ class SearchActivity : AppCompatActivity() {
 
         binding.technicalErrorButton.setOnClickListener {
             searchTrack()
+        }
+
+        binding.clearHistoryButton.setOnClickListener {
+            searchHistory.clearHistory()
+            hideTrackHistory()
+        }
+
+
+        binding.searchEditText.setOnFocusChangeListener { view, hasFocus ->
+            if (hasFocus && binding.searchEditText.text.isEmpty()) {
+                showTrackHistory()
+            } else {
+                hideTrackHistory()
+            }
         }
     }
 
@@ -172,8 +224,32 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+    private fun showTrackHistory() {
+        trackList.clear()
+        searchHistory.getHistoryList()
+        adapterHistory.notifyDataSetChanged()
+        setElements(SearchStatuses.SUCCESS)
+        if (adapterHistory.itemCount > 0) {
+            binding.clearHistoryButton.visibility = View.VISIBLE
+            binding.searchHistoryText.visibility = View.VISIBLE
+            binding.historyList.visibility = View.VISIBLE
+        }
+        binding.trackList.visibility = View.GONE
+    }
+
+    private fun hideTrackHistory() {
+        searchHistory.trackHistoryList.clear()
+        adapterHistory.notifyDataSetChanged()
+        binding.clearHistoryButton.visibility = View.GONE
+        binding.searchHistoryText.visibility = View.GONE
+        binding.historyList.visibility = View.GONE
+        binding.trackList.visibility = View.VISIBLE
+    }
+
+
     companion object {
         const val SEARCH_TEXT = "SEARCH_TEXT"
     }
+
 
 }

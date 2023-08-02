@@ -16,5 +16,7 @@
     <string name="notFound">Ничего не нашлось</string>
     <string name="techError">Проблемы со связью\n\nЗагрузка не удалась. Проверьте\nподключение к интернету</string>
     <string name="refresh">Обновить</string>
+    <string name="clearHistory">Очистить историю</string>
+    <string name="historySearch">Вы искали</string>
 
 </resources>
