@@ -17,6 +17,7 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val artistNameView: TextView
     private val trackTimeView: TextView
     private val trackImage: ImageView
+    private val trackId: TextView
 
 
     init {
@@ -24,12 +25,14 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         artistNameView = itemView.findViewById(R.id.artistName)
         trackTimeView = itemView.findViewById(R.id.trackTime)
         trackImage = itemView.findViewById(R.id.trackCover)
+        trackId = itemView.findViewById(R.id.trackId)
     }
 
     fun bind(model: Track) {
         trackNameView.text = model.trackName
         artistNameView.text = model.artistName
         trackTimeView.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(model.trackTimeMillis)
+        trackId.text = model.trackId.toString()
 
 
         Glide.with(itemView)
