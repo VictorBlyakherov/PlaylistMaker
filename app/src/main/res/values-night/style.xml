@@ -95,5 +95,18 @@
 
     </style>
 
+    <style name="trackDetailMain">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="trackDetailButtonPlay">
+        <item name="android:background">#121212</item>
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <style name="trackDetailButtonGray">
+        <item name="android:tint">@color/white</item>
+        <item name="android:background">#121212</item>
+    </style>
 
 </resources>

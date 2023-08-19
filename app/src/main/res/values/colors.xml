@@ -11,4 +11,6 @@
     <color name="light_gray">#AEAFB4</color>
     <color name="blue_background">#3772E7</color>
     <color name="black_hint">#1A1B22</color>
+    <color name="_1a1b22">#1A1B22</color>
+    <color name="_aeafb4">#AEAFB4</color>
 </resources>
