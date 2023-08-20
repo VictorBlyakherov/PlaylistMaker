@@ -37,9 +37,7 @@ class SearchHistory(private val sharedPrefs: SharedPreferences) {
             }
         }
 
-        sharedPrefs.edit()
-            .putString(HISTORY_KEY, Gson().toJson(trackHistoryList))
-            .apply()
+        sharedPrefs.edit().putString(HISTORY_KEY, Gson().toJson(trackHistoryList)).apply()
     }
 
     fun getHistoryList() {
@@ -53,9 +51,7 @@ class SearchHistory(private val sharedPrefs: SharedPreferences) {
     }
 
     fun clearHistory() {
-        sharedPrefs.edit()
-            .putString(HISTORY_KEY, "")
-            .apply()
+        sharedPrefs.edit().putString(HISTORY_KEY, "").apply()
     }
 
 

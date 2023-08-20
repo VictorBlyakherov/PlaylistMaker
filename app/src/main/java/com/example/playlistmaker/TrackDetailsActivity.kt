@@ -27,13 +27,14 @@ class TrackDetailsActivity : AppCompatActivity() {
 
         val track = intent.getSerializableExtra("track") as? Track
 
-        fun getCoverArtwork() = track?.artworkUrl100?.replaceAfterLast('/',"512x512bb.jpg")
+        fun getCoverArtwork() = track?.artworkUrl100?.replaceAfterLast('/', "512x512bb.jpg")
 
         binding.artistName.text = track?.artistName
         binding.trackName.text = track?.trackName
-        binding.playDuration.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track?.trackTimeMillis)
+        binding.playDuration.text =
+            SimpleDateFormat("mm:ss", Locale.getDefault()).format(track?.trackTimeMillis)
         binding.trackAlbum.text = track?.collectionName
-        binding.trackYear.text = track?.releaseDate
+        binding.trackYear.text = track?.releaseDate?.substring(0, 4)
         binding.trackGenre.text = track?.primaryGenreName
         binding.trackCountry.text = track?.country
 

@@ -18,6 +18,7 @@
             android:id="@+id/backSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
             android:src="@drawable/back_svg"
             android:contentDescription="@string/back"
             android:layout_gravity="center_vertical"

@@ -60,6 +60,7 @@
 
     <style name="backButton">
         <item name="android:tint">@color/white</item>
+        <item name="android:background">#121212</item>
     </style>
 
     <style name="searchEditText">

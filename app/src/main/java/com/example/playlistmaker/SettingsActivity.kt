@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmaker.databinding.SettingsActivityBinding
 
 
-
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: SettingsActivityBinding
@@ -53,13 +52,14 @@ class SettingsActivity : AppCompatActivity() {
             userAgreementAction()
         }
 
-        binding.viewUserAgreement .setOnClickListener {
+        binding.viewUserAgreement.setOnClickListener {
             userAgreementAction()
         }
     }
 
     private fun setSwitcherTheme() {
-        binding.themeSwitch.isChecked = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+        binding.themeSwitch.isChecked =
+            AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
     }
 
 

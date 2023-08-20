@@ -1,50 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/Track"
-    android:onClick="onTrackClick"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:orientation="horizontal"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:onClick="onTrackClick"
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/trackCover"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:src="@drawable/user_license"
         android:layout_gravity="center"
-        android:scaleType="fitCenter"
         android:layout_weight="0"
-        />
+        android:scaleType="fitCenter"
+        android:src="@drawable/user_license" />
+
     <TextView
         android:id="@+id/trackId"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="invisible"
-        android:text=""/>
+        android:text=""
+        android:visibility="invisible" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_gravity="center"
         android:layout_margin="12dp"
-        android:layout_weight="2">
+        android:layout_weight="2"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/trackName"
             style="@style/searchResultMain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="16sp"
             android:ellipsize="end"
             android:maxLines="1"
-            />
+            android:text=""
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -56,29 +55,27 @@
                 style="@style/searchResultOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="11sp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                />
+                android:text=""
+                android:textSize="11sp" />
 
             <ImageView
                 style="@style/searchArrow"
                 android:layout_width="13dp"
                 android:layout_height="13dp"
-                android:src="@drawable/dot_day"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/dot_day" />
 
             <TextView
                 android:id="@+id/trackTime"
                 style="@style/searchResultOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="11sp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                />
+                android:text=""
+                android:textSize="11sp" />
 
         </LinearLayout>
 
@@ -89,8 +86,7 @@
         style="@style/searchArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/day_arrow"
         android:layout_gravity="center"
         android:layout_weight="0"
-        />
+        android:src="@drawable/day_arrow" />
 </LinearLayout>

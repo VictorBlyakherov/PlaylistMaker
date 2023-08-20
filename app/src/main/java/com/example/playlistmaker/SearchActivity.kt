@@ -61,7 +61,8 @@ class SearchActivity : AppCompatActivity() {
             if (track != null) {
                 searchHistory.addTrack(track)
             } else {
-                track = searchHistory.trackHistoryList.find { it.trackId == trackId.toString().toInt()}
+                track =
+                    searchHistory.trackHistoryList.find { it.trackId == trackId.toString().toInt() }
             }
         }
 
