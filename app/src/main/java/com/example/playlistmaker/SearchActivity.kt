@@ -2,6 +2,7 @@ package com.example.playlistmaker
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.opengl.Visibility
 import android.os.Bundle
@@ -54,12 +55,22 @@ class SearchActivity : AppCompatActivity() {
 
     fun onTrackClick(view: View?) {
         val trackId = view?.findViewById<TextView>(R.id.trackId)?.text
+        var track: Track? = null
         if (!trackId.isNullOrEmpty()) {
-            val track = trackList.find { it.trackId == trackId.toString().toInt() }
+            track = trackList.find { it.trackId == trackId.toString().toInt() }
             if (track != null) {
                 searchHistory.addTrack(track)
+            } else {
+                track =
+                    searchHistory.trackHistoryList.find { it.trackId == trackId.toString().toInt() }
             }
         }
+
+        val displayIntent = Intent(this, TrackDetailsActivity::class.java)
+        displayIntent.putExtra("track", track)
+        startActivity(displayIntent)
+
+
     }
 
     private fun setElements(status: SearchStatuses) {

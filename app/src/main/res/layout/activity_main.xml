@@ -1,75 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    style="@style/mainBackground"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/mainBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textColor="@color/white"
+        android:fontFamily="@font/ys_font"
         android:gravity="start"
         android:paddingStart="@dimen/sixteenDP"
         android:paddingTop="14dp"
+        android:text="@string/app_name"
         android:textAppearance="@style/title"
-        tools:ignore="RtlSymmetry"
-        android:fontFamily="@font/ys_font"/>
+        android:textColor="@color/white"
+        tools:ignore="RtlSymmetry" />
 
     <Button
+        android:id="@+id/search"
         style="@style/mainButton"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginLeft="@dimen/sixteenDP"
+        android:layout_marginTop="40dp"
         android:layout_marginRight="@dimen/sixteenDP"
         android:layout_weight="1"
-        android:id="@+id/search"
-        android:layout_height="0dp"
-        android:layout_marginTop="40dp"
+        android:fontFamily="@font/ys_font"
+        android:text="@string/search"
         app:cornerRadius="@dimen/sixteenDP"
         app:icon="@drawable/search_svg"
         app:iconGravity="textStart"
         app:iconPadding="@dimen/tenDP"
-        app:iconTint="@color/black"
-        android:text="@string/search"
-        android:fontFamily="@font/ys_font"/>
+        app:iconTint="@color/black" />
 
     <Button
+        android:id="@+id/media"
         style="@style/mainButton"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginLeft="@dimen/sixteenDP"
+        android:layout_marginTop="@dimen/sixteenDP"
         android:layout_marginRight="@dimen/sixteenDP"
         android:layout_weight="1"
-        android:id="@+id/media"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/sixteenDP"
         android:backgroundTint="@color/white"
+        android:fontFamily="@font/ys_font"
+        android:text="@string/media"
         app:cornerRadius="@dimen/sixteenDP"
         app:icon="@drawable/media_svg"
         app:iconGravity="textStart"
         app:iconPadding="@dimen/tenDP"
-        app:iconTint="@color/black"
-        android:text="@string/media"
-        android:fontFamily="@font/ys_font"/>
+        app:iconTint="@color/black" />
 
     <Button
+        android:id="@+id/settings"
         style="@style/mainButton"
         android:layout_width="match_parent"
-        android:layout_marginLeft="@dimen/sixteenDP"
-        android:layout_marginRight="@dimen/sixteenDP"
-        android:layout_weight="1"
-        android:id="@+id/settings"
         android:layout_height="0dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginLeft="@dimen/sixteenDP"
         android:layout_marginTop="@dimen/sixteenDP"
+        android:layout_marginRight="@dimen/sixteenDP"
+        android:layout_marginBottom="28dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/ys_font"
+        android:text="@string/settings"
         app:cornerRadius="@dimen/sixteenDP"
         app:icon="@drawable/setting_svg"
         app:iconGravity="textStart"
         app:iconPadding="@dimen/tenDP"
-        app:iconTint="@color/black"
-        android:text="@string/settings"
-        android:fontFamily="@font/ys_font"/>
+        app:iconTint="@color/black" />
 </LinearLayout>
