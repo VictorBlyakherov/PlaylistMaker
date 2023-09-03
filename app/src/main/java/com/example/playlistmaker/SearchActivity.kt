@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.opengl.Visibility
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -23,12 +25,23 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 enum class SearchStatuses {
-    SUCCESS, EMPTY_RESULT, CONNECTION_ERROR
+    SUCCESS, EMPTY_RESULT, CONNECTION_ERROR, IN_PROGRESS
 }
 
 const val PLAYLIST_HISTORY = "playlist_history"
 
 class SearchActivity : AppCompatActivity() {
+
+    private val CLICK_DEBOUNCE_DELAY = 1000L
+
+    private val SEARCH_DEBOUNCE_DELAY = 2000L
+
+    private val searchRunnable = Runnable { searchTrack() }
+
+    private var isClickAllowed = true
+
+    private val handler = Handler(Looper.getMainLooper())
+
     private lateinit var sharedPrefs: SharedPreferences
 
     private lateinit var searchHistory: SearchHistory
@@ -53,43 +66,73 @@ class SearchActivity : AppCompatActivity() {
 
     private val appleTrackService = retrofit.create(AppleMusicApi::class.java)
 
-    fun onTrackClick(view: View?) {
-        val trackId = view?.findViewById<TextView>(R.id.trackId)?.text
-        var track: Track? = null
-        if (!trackId.isNullOrEmpty()) {
-            track = trackList.find { it.trackId == trackId.toString().toInt() }
-            if (track != null) {
-                searchHistory.addTrack(track)
-            } else {
-                track =
-                    searchHistory.trackHistoryList.find { it.trackId == trackId.toString().toInt() }
-            }
+    private fun clickDebounce() : Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
         }
+        return current
+    }
 
-        val displayIntent = Intent(this, TrackDetailsActivity::class.java)
-        displayIntent.putExtra("track", track)
-        startActivity(displayIntent)
+    private fun searchDebounce() {
+        handler.removeCallbacks(searchRunnable)
+        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+    }
 
+
+    fun onTrackClick(view: View?) {
+        if (clickDebounce()) {
+            val trackId = view?.findViewById<TextView>(R.id.trackId)?.text
+            var track: Track? = null
+            if (!trackId.isNullOrEmpty()) {
+                track = trackList.find { it.trackId == trackId.toString().toInt() }
+                if (track != null) {
+                    searchHistory.addTrack(track)
+                } else {
+                    track =
+                        searchHistory.trackHistoryList.find {
+                            it.trackId == trackId.toString().toInt()
+                        }
+                }
+            }
+
+            val displayIntent = Intent(this, TrackDetailsActivity::class.java)
+            displayIntent.putExtra("track", track)
+            startActivity(displayIntent)
+        }
 
     }
 
     private fun setElements(status: SearchStatuses) {
         if (status == SearchStatuses.SUCCESS) {
+            binding.progressBar.visibility = View.GONE
             binding.technicalError.visibility = View.GONE
             binding.technicalErrorText.visibility = View.GONE
             binding.technicalErrorButton.visibility = View.GONE
+            binding.trackList.visibility = View.VISIBLE
         } else if (status == SearchStatuses.CONNECTION_ERROR) {
+            binding.progressBar.visibility = View.GONE
             binding.technicalError.setImageResource(R.drawable.technical_error)
             binding.technicalErrorText.setText(R.string.techError)
             binding.technicalError.visibility = View.VISIBLE
             binding.technicalErrorText.visibility = View.VISIBLE
             binding.technicalErrorButton.visibility = View.VISIBLE
+            binding.trackList.visibility = View.GONE
         } else if (status == SearchStatuses.EMPTY_RESULT) {
+            binding.progressBar.visibility = View.GONE
             binding.technicalError.setImageResource(R.drawable.not_found_png)
             binding.technicalErrorText.setText(R.string.notFound)
             binding.technicalError.visibility = View.VISIBLE
             binding.technicalErrorText.visibility = View.VISIBLE
             binding.technicalErrorButton.visibility = View.GONE
+            binding.trackList.visibility = View.GONE
+        } else if (status == SearchStatuses.IN_PROGRESS) {
+            binding.progressBar.visibility = View.VISIBLE
+            binding.technicalError.visibility = View.GONE
+            binding.technicalErrorText.visibility = View.GONE
+            binding.technicalErrorButton.visibility = View.GONE
+            binding.trackList.visibility = View.GONE
         }
     }
 
@@ -107,6 +150,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun searchTrack() {
         if (searchText.isNotEmpty()) {
+            setElements(SearchStatuses.IN_PROGRESS)
             trackList.clear()
             adapter.notifyDataSetChanged()
             appleTrackService.findTrack(searchText).enqueue(object : Callback<TrackResponse> {
@@ -182,6 +226,7 @@ class SearchActivity : AppCompatActivity() {
                     hideTrackHistory()
                 }
 
+                searchDebounce()
             }
 
             override fun afterTextChanged(s: Editable?) {
