@@ -144,7 +144,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/ys_font"
-        android:text="0:30"
+        android:text="0:00"
         android:textFontWeight="500"
         android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@id/rightGL"
