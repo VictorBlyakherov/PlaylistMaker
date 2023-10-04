@@ -1,10 +1,9 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,9 +13,13 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.playlistmaker.AppleMusicApi
+import com.example.playlistmaker.R
+import com.example.playlistmaker.SearchHistory
+import com.example.playlistmaker.Track
+import com.example.playlistmaker.TrackResponse
 import com.example.playlistmaker.databinding.ActivitySearchBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -149,6 +152,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun searchTrack() {
+
         if (searchText.isNotEmpty()) {
             setElements(SearchStatuses.IN_PROGRESS)
             trackList.clear()

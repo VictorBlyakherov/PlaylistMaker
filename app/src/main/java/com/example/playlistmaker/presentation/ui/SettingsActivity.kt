@@ -1,12 +1,13 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation.ui
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.playlistmaker.App
+import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.SettingsActivityBinding
 
 
