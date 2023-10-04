@@ -15,12 +15,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.playlistmaker.AppleMusicApi
+import com.example.playlistmaker.Creator
+import com.example.playlistmaker.data.api.AppleMusicApi
 import com.example.playlistmaker.R
-import com.example.playlistmaker.SearchHistory
-import com.example.playlistmaker.Track
-import com.example.playlistmaker.TrackResponse
+import com.example.playlistmaker.domain.model.Track
+import com.example.playlistmaker.data.impl.TrackResponse
 import com.example.playlistmaker.databinding.ActivitySearchBinding
+import com.example.playlistmaker.domain.api.SearchHistoryInteractor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,7 +48,8 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var sharedPrefs: SharedPreferences
 
-    private lateinit var searchHistory: SearchHistory
+    private lateinit var searchHistory: SearchHistoryInteractor
+
 
     private var searchText: String = ""
 
@@ -94,7 +96,7 @@ class SearchActivity : AppCompatActivity() {
                     searchHistory.addTrack(track)
                 } else {
                     track =
-                        searchHistory.trackHistoryList.find {
+                        searchHistory.getTrackList().find {
                             it.trackId == trackId.toString().toInt()
                         }
                 }
@@ -190,7 +192,7 @@ class SearchActivity : AppCompatActivity() {
 
         sharedPrefs = getSharedPreferences(PLAYLIST_HISTORY, MODE_PRIVATE)
 
-        searchHistory = SearchHistory(sharedPrefs)
+        searchHistory = Creator.provideSearchHistoryInteractor(sharedPrefs)
 
         binding = ActivitySearchBinding.inflate(layoutInflater)
         val view = binding.root
@@ -203,7 +205,7 @@ class SearchActivity : AppCompatActivity() {
         adapter = TrackAdapter(trackList)
 
         searchHistory.getHistoryList()
-        adapterHistory = TrackAdapter(searchHistory.trackHistoryList)
+        adapterHistory = TrackAdapter(searchHistory.getTrackList())
 
         binding.trackList.layoutManager = LinearLayoutManager(this)
         binding.trackList.adapter = adapter
@@ -298,7 +300,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun hideTrackHistory() {
-        searchHistory.trackHistoryList.clear()
+        searchHistory.clearTrackList()
         adapterHistory.notifyDataSetChanged()
         binding.clearHistoryButton.visibility = View.GONE
         binding.searchHistoryText.visibility = View.GONE

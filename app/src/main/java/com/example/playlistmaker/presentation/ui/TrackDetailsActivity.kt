@@ -7,9 +7,9 @@ import android.os.Looper
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.Creator
-import com.example.playlistmaker.PlayerState
+import com.example.playlistmaker.domain.model.PlayerState
 import com.example.playlistmaker.R
-import com.example.playlistmaker.Track
+import com.example.playlistmaker.domain.model.Track
 import com.example.playlistmaker.databinding.TrackDetailsBinding
 import com.example.playlistmaker.domain.api.PlayTrackInteractor
 import java.text.SimpleDateFormat

@@ -1,10 +1,10 @@
 package com.example.playlistmaker.domain.impl
 
-import com.example.playlistmaker.PlayerState
+import com.example.playlistmaker.domain.model.PlayerState
 import com.example.playlistmaker.domain.api.PlayTrackInteractor
-import com.example.playlistmaker.domain.api.PlayTrackRepository
+import com.example.playlistmaker.data.api.PlayTrackRepository
 
-class PlayTrackInteractorImpl(private val repository: PlayTrackRepository): PlayTrackInteractor{
+class PlayTrackInteractorImpl(private val repository: PlayTrackRepository, ): PlayTrackInteractor{
 
     override fun preparePlayer(url: String) {
         repository.prepare(url)

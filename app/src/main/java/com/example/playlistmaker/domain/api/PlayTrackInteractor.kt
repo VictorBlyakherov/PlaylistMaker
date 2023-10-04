@@ -1,7 +1,6 @@
 package com.example.playlistmaker.domain.api
 
-import com.example.playlistmaker.PlayerState
-import java.util.EventListener
+import com.example.playlistmaker.domain.model.PlayerState
 
 interface PlayTrackInteractor {
     fun preparePlayer(url: String)
