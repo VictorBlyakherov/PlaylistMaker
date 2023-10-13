@@ -8,10 +8,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class SearchHistoryImpl(private val sharedPrefs: SharedPreferences): SearchHistoryRepository {
-    private val MAX_TRACK_IN_HISTORY: Int = 10
-    private val HISTORY_KEY = "historyList"
 
-    var trackHistoryList: MutableList<Track> = ArrayList()
+
+    private val trackHistoryList: MutableList<Track> = ArrayList()
 
     override fun addTrack(track: Track) {
         val historyList = sharedPrefs.getString(HISTORY_KEY, "")
@@ -51,6 +50,7 @@ class SearchHistoryImpl(private val sharedPrefs: SharedPreferences): SearchHisto
     }
 
     override fun clearHistory() {
+        clearTrackList()
         sharedPrefs.edit().putString(HISTORY_KEY, "").apply()
     }
 
@@ -62,7 +62,10 @@ class SearchHistoryImpl(private val sharedPrefs: SharedPreferences): SearchHisto
         return trackHistoryList
     }
 
-
+companion object {
+    private val MAX_TRACK_IN_HISTORY: Int = 10
+    private val HISTORY_KEY = "historyList"
+}
 
 
 }

@@ -20,59 +20,57 @@ import com.example.playlistmaker.ui.player.activity.TrackDetailsActivity
 
 class SearchViewModel(private val searchInteractor: SearchInteractor, private val searchHistoryInteractor:SearchHistoryInteractor): ViewModel() {
 
-    private val RESPONSEOKCODE: Int = 200
+    private var _searchStatusMutable = MutableLiveData<SearchStatuses>()
+    val searchStatus: LiveData<SearchStatuses> = _searchStatusMutable
 
-    private var searchStatusMutable = MutableLiveData<SearchStatuses>()
-    val searchStatus = searchStatusMutable
-    private var trackListMutable = MutableLiveData<MutableList<Track>>()
-    private var searchEditTextMutable = MutableLiveData<String>()
-    val searchEditText = searchEditTextMutable
-    private var trackHistoryListMutable = MutableLiveData<MutableList<Track>>()
-    private var isShowHistoryListMutable = MutableLiveData<Boolean>()
-    val isShowHistoryList = isShowHistoryListMutable
+    private var _trackListMutable = MutableLiveData<List<Track>>()
+    private var _trackHistoryListMutable = MutableLiveData<List<Track>>()
 
-    fun getTrackHistoryList() : LiveData<MutableList<Track>> {
-        return trackHistoryListMutable
+
+    private var _isShowHistoryListMutable = MutableLiveData<Boolean>()
+    val isShowHistoryList: LiveData<Boolean> = _isShowHistoryListMutable
+
+
+    fun getTrackHistoryList() : LiveData<List<Track>> {
+        return _trackHistoryListMutable
     }
 
-    fun getTrackList(): LiveData<MutableList<Track>> {
-        return trackListMutable
+    fun getTrackList(): LiveData<List<Track>> {
+        return _trackListMutable
     }
 
     fun fillHistoryList() {
         searchHistoryInteractor.getHistoryList()
-        trackHistoryListMutable.value = searchHistoryInteractor.getTrackList()
+        _trackHistoryListMutable.value = searchHistoryInteractor.getTrackList()
     }
 
     fun clearSearchText() {
-        searchEditTextMutable.value = ""
-        trackListMutable.value?.clear()
-        searchStatusMutable.value = SearchStatuses.SUCCESS
+        _trackListMutable.value = listOf()
+        _searchStatusMutable.value = SearchStatuses.SUCCESS
 
     }
 
     fun showHistoryList() {
-        trackListMutable.value?.clear()
+        _trackListMutable.value = listOf()
         searchHistoryInteractor.getHistoryList()
-        trackHistoryListMutable.value = searchHistoryInteractor.getTrackList()
-        searchStatus.value = SearchStatuses.SUCCESS
-        isShowHistoryListMutable.value = true
+        _trackHistoryListMutable.value = searchHistoryInteractor.getTrackList()
+        _searchStatusMutable.value = SearchStatuses.SUCCESS
+        _isShowHistoryListMutable.value = true
     }
 
     fun hideHistoryList() {
-        trackHistoryListMutable.value?.clear()
-        isShowHistoryListMutable.value = false
+        _trackHistoryListMutable.value = listOf()
+        _isShowHistoryListMutable.value = false
     }
 
     fun clearHistory(){
         searchHistoryInteractor.clearHistory()
-        trackHistoryListMutable.value?.clear()
+        _trackHistoryListMutable.value = listOf()
     }
 
     fun clickTrack(context: Context, trackId: Int) {
 
-
-        var track = trackListMutable.value?.find { it.trackId == trackId }
+        var track = _trackListMutable.value?.find { it.trackId == trackId }
         if (track != null) {
             searchHistoryInteractor.addTrack(track)
         } else {
@@ -90,21 +88,21 @@ class SearchViewModel(private val searchInteractor: SearchInteractor, private va
 
     fun searchTrack(queryString: String) {
 
-        searchStatus.value = SearchStatuses.IN_PROGRESS
+        _searchStatusMutable.value = SearchStatuses.IN_PROGRESS
         val resp = searchInteractor.searchTrack(queryString, object:
             SearchInteractor.TrackConsumer {
                 override fun consume(foundTracks: List<Track>?){
                     if (foundTracks == null) {
-                        searchStatus.postValue(SearchStatuses.CONNECTION_ERROR)
+                        _searchStatusMutable.postValue(SearchStatuses.CONNECTION_ERROR)
                     }
                     if (foundTracks != null) {
                         if (foundTracks.isEmpty()) {
-                            searchStatus.postValue(SearchStatuses.EMPTY_RESULT)
+                            _searchStatusMutable.postValue(SearchStatuses.EMPTY_RESULT)
                         } else if (foundTracks.isNotEmpty()) {
                             val tempList = mutableListOf<Track>()
                             tempList.addAll(foundTracks)
-                            trackListMutable.postValue(tempList)
-                            searchStatusMutable.postValue(SearchStatuses.SUCCESS)
+                            _trackListMutable.postValue(tempList)
+                            _searchStatusMutable.postValue(SearchStatuses.SUCCESS)
                         }
                     }
                }

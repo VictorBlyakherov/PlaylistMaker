@@ -23,7 +23,6 @@ class App : Application() {
         darkTheme = settingInteractor.getTheme()
 
         switchTheme(darkTheme)
-        settingInteractor.setTheme(darkTheme)
     }
 
     fun switchTheme(darkThemeEnabled: Boolean) {

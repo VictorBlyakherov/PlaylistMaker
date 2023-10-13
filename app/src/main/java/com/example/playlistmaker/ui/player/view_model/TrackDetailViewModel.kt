@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.domain.model.PlayerState
+import com.example.playlistmaker.domain.model.PlayingStatus
 import com.example.playlistmaker.domain.model.Track
 import com.example.playlistmaker.domain.player.PlayTrackInteractor
 
@@ -17,18 +18,14 @@ class TrackDetailViewModel (private val playTrackInteractor: PlayTrackInteractor
 
     private val PLAY_DEBOUNCE_DELAY = 1000L
 
+    private var _playingStatusMutable = MutableLiveData<PlayingStatus>()
+    val playingStatus: LiveData<PlayingStatus> = _playingStatusMutable
 
-    private var playIconMutable = MutableLiveData<String>()
-    val playIcon: LiveData<String> = playIconMutable
+    private var _currentPlayPositionMutable = MutableLiveData<Int>()
+    val currentPlayPosition: LiveData<Int> = _currentPlayPositionMutable
 
-    private var isPlayEnabledMutable = MutableLiveData<Boolean>()
-    val isPlayEnable: LiveData<Boolean> = isPlayEnabledMutable
-
-    private var currentPlayPositionMutable = MutableLiveData<Int>()
-    val currentPlayPosition: LiveData<Int> = currentPlayPositionMutable
-
-    private var trackMutable = MutableLiveData<Track>()
-    val track: LiveData<Track> = trackMutable
+    private var _trackMutable = MutableLiveData<Track>()
+    val track: LiveData<Track> = _trackMutable
 
     private val handler = Handler(Looper.getMainLooper())
     private val timeChangeRunnable = increasePlayTime()
@@ -37,7 +34,7 @@ class TrackDetailViewModel (private val playTrackInteractor: PlayTrackInteractor
 
         return object : Runnable {
             override fun run() {
-                currentPlayPositionMutable.value = currentPlayPositionMutable.value?.plus(1)
+                _currentPlayPositionMutable.value = _currentPlayPositionMutable.value?.plus(1)
                 handler.postDelayed(this, PLAY_DEBOUNCE_DELAY)
             }
         }
@@ -46,25 +43,24 @@ class TrackDetailViewModel (private val playTrackInteractor: PlayTrackInteractor
 
 
     fun preparePlayer(intent: Intent){
-        trackMutable.value = intent.getSerializableExtra("track") as? Track
+        _trackMutable.value = intent.getSerializableExtra("track") as? Track
 
         var trackUrl = ""
-        trackUrl = if (trackMutable.value?.previewUrl == null) {
+        trackUrl = if (_trackMutable.value?.previewUrl == null) {
             ""
         } else {
-            trackMutable.value?.previewUrl
+            _trackMutable.value?.previewUrl
         }!!
 
-        playIconMutable.value = "play"
+        _playingStatusMutable.value = PlayingStatus.PLAY
         handler.removeCallbacks(timeChangeRunnable)
-        isPlayEnabledMutable.value = true
         playTrackInteractor.preparePlayer(trackUrl)
-        currentPlayPositionMutable.value = 0
+        _currentPlayPositionMutable.value = 0
 
 
         playTrackInteractor.setTrackCompletionListener {
-            playIconMutable.value = "play"
-            currentPlayPositionMutable.value = 0
+            _playingStatusMutable.value = PlayingStatus.PLAY
+            _currentPlayPositionMutable.value = 0
             handler.removeCallbacks(timeChangeRunnable)
         }
 
@@ -82,14 +78,14 @@ class TrackDetailViewModel (private val playTrackInteractor: PlayTrackInteractor
         when (playTrackInteractor.getPlayerState()) {
             PlayerState.STATE_PAUSED, PlayerState.STATE_PREPARED, PlayerState.STATE_DEFAULT -> {
                 handler.removeCallbacks(timeChangeRunnable)
-                playIconMutable.value = "pause"
+                _playingStatusMutable.value = PlayingStatus.PAUSE
                 playTrackInteractor.startPlayer()
                 handler.postDelayed(timeChangeRunnable, PLAY_DEBOUNCE_DELAY)
             }
 
             PlayerState.STATE_PLAYING -> {
                 handler.removeCallbacks(timeChangeRunnable)
-                playIconMutable.value = "play"
+                _playingStatusMutable.value = PlayingStatus.PLAY
                 playTrackInteractor.pausePlayer()
             }
         }

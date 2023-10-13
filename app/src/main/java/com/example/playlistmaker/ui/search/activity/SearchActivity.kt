@@ -135,11 +135,7 @@ class SearchActivity : AppCompatActivity() {
 
         binding.clearIcon.setOnClickListener {
             searchViewModel.clearSearchText()
-
-        }
-
-        searchViewModel.searchEditText.observe(this) {
-            binding.searchEditText.setText(it)
+            binding.searchEditText.setText("")
         }
 
         searchViewModel.searchStatus.observe(this) {

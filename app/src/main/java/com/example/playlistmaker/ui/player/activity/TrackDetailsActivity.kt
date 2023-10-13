@@ -2,11 +2,13 @@ package com.example.playlistmaker.ui.player.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.TrackDetailsBinding
+import com.example.playlistmaker.domain.model.PlayingStatus
 import com.example.playlistmaker.ui.player.view_model.TrackDetailViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -54,10 +56,6 @@ class TrackDetailsActivity : AppCompatActivity() {
             trackDetailViewModel.playbackControl()
         }
 
-        trackDetailViewModel.isPlayEnable.observe(this) { isEnable ->
-            binding.play.isEnabled = isEnable
-        }
-
         trackDetailViewModel.track.observe(this) {track ->
             fun getCoverArtwork() = track.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
 
@@ -66,7 +64,7 @@ class TrackDetailsActivity : AppCompatActivity() {
             binding.trackDuration.text =
                 SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
             binding.trackAlbum.text = track.collectionName
-            binding.trackYear.text = track.releaseDate.substring(0, 4)
+            binding.trackYear.text = if (track.releaseDate.length > 4) track.releaseDate.substring(0, 4) else track.releaseDate
             binding.trackGenre.text = track.primaryGenreName
             binding.trackCountry.text = track.country
 
@@ -79,11 +77,12 @@ class TrackDetailsActivity : AppCompatActivity() {
         }
 
 
-        trackDetailViewModel.playIcon.observe(this) {it ->
-            if (it.equals("play")) {
-                binding.play.setImageDrawable(getResources().getDrawable(R.drawable.play))
-            } else if (it.equals("pause")) {
-                binding.play.setImageDrawable(getResources().getDrawable(R.drawable.pause))
+        trackDetailViewModel.playingStatus.observe(this) {it ->
+            binding.play.isEnabled =  true
+            if (it == PlayingStatus.PLAY) {
+                binding.play.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.play))
+            } else if (it == PlayingStatus.PAUSE) {
+                binding.play.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pause))
             }
         }
 

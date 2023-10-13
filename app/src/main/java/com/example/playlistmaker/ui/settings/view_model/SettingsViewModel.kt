@@ -16,8 +16,8 @@ class SettingsViewModel(
     private val sharingInteractor: SharingInteractor,
     private val settingInteractor: SettingInteractor,
 ) : ViewModel() {
-    private var currentThemeMutable = MutableLiveData<Boolean>()
-    val currentTheme: LiveData<Boolean> = currentThemeMutable
+    private var _currentThemeMutable = MutableLiveData<Boolean>()
+    val currentTheme: LiveData<Boolean> = _currentThemeMutable
 
 
     init {
@@ -38,12 +38,12 @@ class SettingsViewModel(
     }
 
     fun getTheme() {
-        currentThemeMutable.value = settingInteractor.getTheme()
+        _currentThemeMutable.value = settingInteractor.getTheme()
     }
 
     fun setTheme(theme: Boolean) {
         settingInteractor.setTheme(theme)
-        currentThemeMutable.value = theme
+        _currentThemeMutable.value = theme
     }
 
     companion object {
