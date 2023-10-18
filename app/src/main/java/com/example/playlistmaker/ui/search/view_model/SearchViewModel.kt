@@ -99,9 +99,7 @@ class SearchViewModel(private val searchInteractor: SearchInteractor, private va
                         if (foundTracks.isEmpty()) {
                             _searchStatusMutable.postValue(SearchStatuses.EMPTY_RESULT)
                         } else if (foundTracks.isNotEmpty()) {
-                            val tempList = mutableListOf<Track>()
-                            tempList.addAll(foundTracks)
-                            _trackListMutable.postValue(tempList)
+                            _trackListMutable.postValue(foundTracks!!)
                             _searchStatusMutable.postValue(SearchStatuses.SUCCESS)
                         }
                     }

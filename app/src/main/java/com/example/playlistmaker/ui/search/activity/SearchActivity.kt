@@ -158,6 +158,7 @@ class SearchActivity : AppCompatActivity() {
             adapterHistory = TrackAdapter({
                 onTrackClick(it)
             }, trackList)
+
             binding.historyList.layoutManager = LinearLayoutManager(this)
             binding.historyList.adapter = adapterHistory
             adapterHistory.notifyDataSetChanged()
