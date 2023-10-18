@@ -26,5 +26,8 @@
     <string name="year">Год</string>
     <string name="genre">Жанр</string>
     <string name="country">Страна</string>
+    <string name="emailMessage">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="emailSubject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="emailFromAddress">xxxxxvic@yandex.ru</string>
 
 </resources>
