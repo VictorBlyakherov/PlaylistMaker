@@ -1,15 +1,9 @@
-package com.example.playlistmaker.creator
+package com.example.playlistmaker.di
 
-import android.content.Context
-import android.content.SharedPreferences
+import com.example.playlistmaker.data.sharing.ExternalNavigator
+import com.example.playlistmaker.data.sharing.impl.ExternalNavigatorImpl
 import com.example.playlistmaker.domain.player.PlayTrackInteractor
 import com.example.playlistmaker.domain.player.impl.PlayTrackInteractorImpl
-import com.example.playlistmaker.data.player.impl.PlayTrackRepositoryImpl
-import com.example.playlistmaker.data.search.impl.SearchHistoryImpl
-import com.example.playlistmaker.data.search.impl.SearchRepositoryImpl
-import com.example.playlistmaker.data.search.network.RetrofitNetworkClient
-import com.example.playlistmaker.data.settings.impl.SettingRepositoryImpl
-import com.example.playlistmaker.data.sharing.impl.ExternalNavigatorImpl
 import com.example.playlistmaker.domain.search.SearchHistoryInteractor
 import com.example.playlistmaker.domain.search.SearchInteractor
 import com.example.playlistmaker.domain.search.impl.SearchHistoryInteractorImpl
@@ -18,11 +12,33 @@ import com.example.playlistmaker.domain.settings.SettingInteractor
 import com.example.playlistmaker.domain.settings.impl.SettingInteractorImpl
 import com.example.playlistmaker.domain.sharing.SharingInteractor
 import com.example.playlistmaker.domain.sharing.impl.SharingInteractorImpl
+import org.koin.dsl.module
 
-object Creator {
 
-    fun provideSettingInteractor(context: Context): SettingInteractor {
-        return  SettingInteractorImpl(SettingRepositoryImpl(context))
+val domainModule = module {
+
+    factory<SearchInteractor> {
+        SearchInteractorImpl(get())
+    }
+
+    factory<SettingInteractor> {
+        SettingInteractorImpl(get())
+    }
+
+    factory<SharingInteractor> {
+        SharingInteractorImpl(get())
+    }
+
+    factory<SearchHistoryInteractor> {
+        SearchHistoryInteractorImpl(get())
+    }
+
+    factory<PlayTrackInteractor> {
+        PlayTrackInteractorImpl(get())
+    }
+
+    factory<ExternalNavigator> {
+        ExternalNavigatorImpl(context = get())
     }
 
 }

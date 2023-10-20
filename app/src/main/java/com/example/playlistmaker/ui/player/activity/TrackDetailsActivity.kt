@@ -10,13 +10,14 @@ import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.TrackDetailsBinding
 import com.example.playlistmaker.domain.model.PlayingStatus
 import com.example.playlistmaker.ui.player.view_model.TrackDetailViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class TrackDetailsActivity : AppCompatActivity() {
 
 
-    private lateinit var trackDetailViewModel: TrackDetailViewModel
+    private val trackDetailViewModel by viewModel<TrackDetailViewModel>()
 
     private lateinit var binding: TrackDetailsBinding
 
@@ -37,13 +38,6 @@ class TrackDetailsActivity : AppCompatActivity() {
         binding = TrackDetailsBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
-        trackDetailViewModel = ViewModelProvider(
-            this,
-            TrackDetailViewModel.getViewModelFactory()
-        )[TrackDetailViewModel::class.java]
-
-
 
         binding.backTrackDetail.setOnClickListener {
             this.finish()

@@ -107,17 +107,4 @@ class SearchViewModel(private val searchInteractor: SearchInteractor, private va
         })
     }
 
-    companion object {
-        fun getViewModelFactory(sharedPreferences: SharedPreferences): ViewModelProvider.Factory =
-            object : ViewModelProvider.Factory {
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return SearchViewModel(
-                        Creator.provideSearchInteractor(),
-                        Creator.provideSearchHistoryInteractor(sharedPreferences)
-                    ) as T
-                }
-            }
-    }
-
 }

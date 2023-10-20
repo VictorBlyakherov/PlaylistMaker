@@ -46,17 +46,4 @@ class SettingsViewModel(
         _currentThemeMutable.value = theme
     }
 
-    companion object {
-        fun getViewModelFactory(sharedPreferences: SharedPreferences, context: Context): ViewModelProvider.Factory =
-            object : ViewModelProvider.Factory {
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return SettingsViewModel(
-                        Creator.provideSharingInteractor(context),
-                        Creator.provideSettingInteractor(sharedPreferences)
-                    ) as T
-                }
-            }
-    }
-
 }

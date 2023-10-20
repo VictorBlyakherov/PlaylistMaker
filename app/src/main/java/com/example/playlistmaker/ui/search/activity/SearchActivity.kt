@@ -21,13 +21,15 @@ import com.example.playlistmaker.databinding.ActivitySearchBinding
 import com.example.playlistmaker.domain.model.SearchStatuses
 import com.example.playlistmaker.domain.search.SearchHistoryInteractor
 import com.example.playlistmaker.ui.search.view_model.SearchViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-const val PLAYLIST_HISTORY = "playlist_history"
+
 
 class SearchActivity : AppCompatActivity() {
 
-    private lateinit var searchViewModel: SearchViewModel
+    private val searchViewModel by viewModel<SearchViewModel>()
+
 
     private val CLICK_DEBOUNCE_DELAY = 1000L
 
@@ -38,11 +40,6 @@ class SearchActivity : AppCompatActivity() {
     private var isClickAllowed = true
 
     private val handler = Handler(Looper.getMainLooper())
-
-    private lateinit var sharedPrefs: SharedPreferences
-
-    private lateinit var searchHistory: SearchHistoryInteractor
-
 
     private var searchText: String = ""
 
@@ -112,16 +109,6 @@ class SearchActivity : AppCompatActivity() {
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        sharedPrefs = getSharedPreferences(PLAYLIST_HISTORY, MODE_PRIVATE)
-
-        searchHistory = Creator.provideSearchHistoryInteractor(sharedPrefs)
-
-        searchViewModel = ViewModelProvider(
-            this,
-            SearchViewModel.getViewModelFactory(sharedPrefs)
-        )[SearchViewModel::class.java]
-
 
         binding = ActivitySearchBinding.inflate(layoutInflater)
         val view = binding.root
