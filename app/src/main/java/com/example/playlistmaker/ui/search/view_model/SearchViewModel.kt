@@ -3,13 +3,9 @@ package com.example.playlistmaker.ui.search.view_model
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.domain.model.SearchStatuses
 import com.example.playlistmaker.domain.model.Track
 import com.example.playlistmaker.domain.search.SearchHistoryInteractor

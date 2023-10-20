@@ -6,8 +6,6 @@ import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.domain.model.PlayerState
 import com.example.playlistmaker.domain.model.PlayingStatus
 import com.example.playlistmaker.domain.model.Track
