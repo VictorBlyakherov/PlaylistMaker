@@ -6,8 +6,6 @@ import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.domain.model.PlayerState
 import com.example.playlistmaker.domain.model.PlayingStatus
 import com.example.playlistmaker.domain.model.Track
@@ -90,19 +88,6 @@ class TrackDetailViewModel (private val playTrackInteractor: PlayTrackInteractor
             }
         }
 
-    }
-
-
-    companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory =
-            object : ViewModelProvider.Factory {
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return TrackDetailViewModel(
-                        Creator.providePlayTrackInteractor()
-                    ) as T
-                }
-            }
     }
 
 }

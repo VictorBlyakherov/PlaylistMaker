@@ -9,15 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 import java.lang.Exception
 
-class RetrofitNetworkClient: NetworkClient {
-
-    private val appleBaseUrl = "https://itunes.apple.com"
-
-    private val retrofit =
-        Retrofit.Builder().baseUrl(appleBaseUrl).addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-    private val appleTrackService = retrofit.create(AppleMusicApi::class.java)
+class RetrofitNetworkClient(private val appleTrackService: AppleMusicApi): NetworkClient {
 
     override fun doRequest(dto: Any): Response {
         if (dto is TrackSearchRequest) {
@@ -35,8 +27,5 @@ class RetrofitNetworkClient: NetworkClient {
         }
 
     }
-
-
-
 
 }

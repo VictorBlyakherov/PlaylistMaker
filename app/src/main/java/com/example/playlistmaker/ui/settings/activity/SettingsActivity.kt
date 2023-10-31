@@ -12,15 +12,13 @@ import com.example.playlistmaker.PLAYLIST_SETTINGS
 
 import com.example.playlistmaker.databinding.SettingsActivityBinding
 import com.example.playlistmaker.ui.settings.view_model.SettingsViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: SettingsActivityBinding
-    private lateinit var settingsViewModel: SettingsViewModel
-    private lateinit var sharedPrefs: SharedPreferences
-
-
+    private val settingsViewModel by viewModel<SettingsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,13 +26,6 @@ class SettingsActivity : AppCompatActivity() {
         binding = SettingsActivityBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        sharedPrefs = getSharedPreferences(PLAYLIST_SETTINGS, MODE_PRIVATE)
-
-
-        settingsViewModel = ViewModelProvider(
-            this,
-            SettingsViewModel.getViewModelFactory(sharedPrefs, this)
-        )[SettingsViewModel::class.java]
 
 
         settingsViewModel.currentTheme.observe(this) { currentTheme ->

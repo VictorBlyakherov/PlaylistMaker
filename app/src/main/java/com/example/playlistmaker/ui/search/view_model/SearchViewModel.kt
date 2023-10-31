@@ -3,13 +3,9 @@ package com.example.playlistmaker.ui.search.view_model
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.domain.model.SearchStatuses
 import com.example.playlistmaker.domain.model.Track
 import com.example.playlistmaker.domain.search.SearchHistoryInteractor
@@ -105,19 +101,6 @@ class SearchViewModel(private val searchInteractor: SearchInteractor, private va
                     }
                }
         })
-    }
-
-    companion object {
-        fun getViewModelFactory(sharedPreferences: SharedPreferences): ViewModelProvider.Factory =
-            object : ViewModelProvider.Factory {
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return SearchViewModel(
-                        Creator.provideSearchInteractor(),
-                        Creator.provideSearchHistoryInteractor(sharedPreferences)
-                    ) as T
-                }
-            }
     }
 
 }
