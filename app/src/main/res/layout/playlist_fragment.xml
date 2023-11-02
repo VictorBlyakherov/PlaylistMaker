@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        style="@style/settingsBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+        >
+        <Button
+            style="@style/refreshButton"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/technicalErrorButton"
+            app:cornerRadius="54dp"
+            android:text = "Новый плейлист"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/ys_font"/>
+
+        <ImageView
+            android:id="@+id/favorites_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/not_found_png"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="46dp"
+            />
+        <TextView
+            style="@style/searchResultMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_playlist"
+            android:paddingTop="16dp"
+            android:textSize="19sp"
+            android:fontFamily="@font/ys_font"
+            />
+    </LinearLayout>
+</FrameLayout>
