@@ -23,11 +23,13 @@ class MediaActivity : AppCompatActivity() {
         }
 
 
-        binding.viewPager.adapter = MediaPagerAdapter(supportFragmentManager,
-            lifecycle)
+        binding.viewPager.adapter = MediaPagerAdapter(
+            supportFragmentManager,
+            lifecycle
+        )
 
         tabMediator = TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            when(position) {
+            when (position) {
                 0 -> tab.text = getString(R.string.favorites_str)
                 1 -> tab.text = getString(R.string.playlist_str)
             }

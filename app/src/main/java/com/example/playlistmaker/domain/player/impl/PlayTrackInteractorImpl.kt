@@ -4,7 +4,7 @@ import com.example.playlistmaker.domain.model.PlayerState
 import com.example.playlistmaker.data.player.PlayTrackRepository
 import com.example.playlistmaker.domain.player.PlayTrackInteractor
 
-class PlayTrackInteractorImpl(private val repository: PlayTrackRepository, ): PlayTrackInteractor {
+class PlayTrackInteractorImpl(private val repository: PlayTrackRepository) : PlayTrackInteractor {
 
     override fun preparePlayer(url: String) {
         repository.prepare(url)

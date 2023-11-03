@@ -43,25 +43,24 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        style="@style/settingsBackground"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        style="@style/settingsBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <com.google.android.material.tabs.TabLayout
-            style="@style/settingsBackground"
             android:id="@+id/tabLayout"
+            style="@style/settingsBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp" />
 
         <androidx.viewpager2.widget.ViewPager2
-            style="@style/settingsBackground"
             android:id="@+id/viewPager"
+            style="@style/settingsBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

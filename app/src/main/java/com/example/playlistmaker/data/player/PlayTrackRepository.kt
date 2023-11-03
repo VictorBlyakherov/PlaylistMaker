@@ -9,5 +9,5 @@ interface PlayTrackRepository {
     fun pause()
     fun stop()
     fun setOnCompletionListener(listener: () -> Unit)
-    fun getPlayerState() : PlayerState
+    fun getPlayerState(): PlayerState
 }

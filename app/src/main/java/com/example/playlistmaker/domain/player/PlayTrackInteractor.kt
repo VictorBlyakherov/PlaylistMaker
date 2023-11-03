@@ -8,6 +8,6 @@ interface PlayTrackInteractor {
     fun pausePlayer()
     fun stopPlayer()
     fun setTrackCompletionListener(listener: () -> Unit)
-    fun getPlayerState() : PlayerState
+    fun getPlayerState(): PlayerState
 
 }

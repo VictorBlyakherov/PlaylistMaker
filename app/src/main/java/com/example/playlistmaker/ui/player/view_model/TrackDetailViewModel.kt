@@ -12,7 +12,7 @@ import com.example.playlistmaker.domain.model.Track
 import com.example.playlistmaker.domain.player.PlayTrackInteractor
 
 
-class TrackDetailViewModel (private val playTrackInteractor: PlayTrackInteractor) : ViewModel() {
+class TrackDetailViewModel(private val playTrackInteractor: PlayTrackInteractor) : ViewModel() {
 
     private val PLAY_DEBOUNCE_DELAY = 1000L
 
@@ -28,7 +28,7 @@ class TrackDetailViewModel (private val playTrackInteractor: PlayTrackInteractor
     private val handler = Handler(Looper.getMainLooper())
     private val timeChangeRunnable = increasePlayTime()
 
-    private fun increasePlayTime() :Runnable {
+    private fun increasePlayTime(): Runnable {
 
         return object : Runnable {
             override fun run() {
@@ -39,8 +39,7 @@ class TrackDetailViewModel (private val playTrackInteractor: PlayTrackInteractor
     }
 
 
-
-    fun preparePlayer(intent: Intent){
+    fun preparePlayer(intent: Intent) {
         _trackMutable.value = intent.getSerializableExtra("track") as? Track
 
         var trackUrl = ""

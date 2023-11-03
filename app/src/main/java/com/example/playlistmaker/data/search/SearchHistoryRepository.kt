@@ -7,6 +7,6 @@ interface SearchHistoryRepository {
     fun getHistoryList()
     fun clearHistory()
     fun clearTrackList()
-    fun getTrackList() : MutableList<Track>
+    fun getTrackList(): MutableList<Track>
 
 }

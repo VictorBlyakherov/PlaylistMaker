@@ -23,8 +23,8 @@ val dataModule = module {
     val appleBaseUrl = "https://itunes.apple.com"
 
     single<AppleMusicApi> {
-            Retrofit.Builder().baseUrl(appleBaseUrl).addConverterFactory(GsonConverterFactory.create())
-                .build().create(AppleMusicApi::class.java)
+        Retrofit.Builder().baseUrl(appleBaseUrl).addConverterFactory(GsonConverterFactory.create())
+            .build().create(AppleMusicApi::class.java)
     }
 
     factory { Gson() }

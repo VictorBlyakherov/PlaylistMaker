@@ -1,5 +1,5 @@
 package com.example.playlistmaker.data.model
 
-data class EmailData (
+data class EmailData(
     val message: String, val subject: String, val fromAddress: String
-    )
+)

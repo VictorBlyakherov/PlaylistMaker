@@ -3,46 +3,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         style="@style/settingsBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:gravity="center_horizontal"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
 
         >
+
         <Button
+            android:id="@+id/technicalErrorButton"
             style="@style/refreshButton"
-            android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/technicalErrorButton"
-            app:cornerRadius="54dp"
-            android:text = "Новый плейлист"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/ys_font"
+            android:text="@string/new_playlist"
             android:textAllCaps="false"
             android:textSize="14sp"
-            android:layout_gravity="center"
-            android:fontFamily="@font/ys_font"/>
+            app:cornerRadius="54dp" />
 
         <ImageView
             android:id="@+id/favorites_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/not_found_png"
-            android:scaleType="centerCrop"
             android:layout_marginTop="46dp"
-            />
+            android:scaleType="centerCrop"
+            android:src="@drawable/not_found" />
+
         <TextView
             style="@style/searchResultMain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/empty_playlist"
-            android:paddingTop="16dp"
-            android:textSize="19sp"
             android:fontFamily="@font/ys_font"
-            />
+            android:gravity="center_horizontal"
+            android:paddingTop="16dp"
+            android:text="@string/empty_playlist"
+            android:textSize="19sp" />
     </LinearLayout>
 </FrameLayout>
