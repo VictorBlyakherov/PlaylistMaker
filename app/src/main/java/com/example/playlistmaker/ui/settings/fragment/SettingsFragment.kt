@@ -1,34 +1,34 @@
-package com.example.playlistmaker.ui.settings.activity
+package com.example.playlistmaker.ui.settings.fragment
 
-
-import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.CompoundButton
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.ViewModelProvider
-
-import com.example.playlistmaker.PLAYLIST_SETTINGS
-
-import com.example.playlistmaker.databinding.SettingsActivityBinding
+import androidx.fragment.app.Fragment
+import com.example.playlistmaker.databinding.FragmentSettingsBinding
 import com.example.playlistmaker.ui.settings.view_model.SettingsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+class SettingsFragment : Fragment() {
 
-class SettingsActivity : AppCompatActivity() {
-
-    private lateinit var binding: SettingsActivityBinding
+    private lateinit var binding: FragmentSettingsBinding
     private val settingsViewModel by viewModel<SettingsViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-        binding = SettingsActivityBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
 
-        settingsViewModel.currentTheme.observe(this) { currentTheme ->
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        settingsViewModel.currentTheme.observe(viewLifecycleOwner) { currentTheme ->
             binding.themeSwitch.isChecked = currentTheme
         }
 
@@ -42,10 +42,6 @@ class SettingsActivity : AppCompatActivity() {
                 }
             )
         })
-
-        binding.back.setOnClickListener {
-            this.finish()
-        }
 
         binding.share.setOnClickListener {
             settingsViewModel.shareLink()
@@ -71,5 +67,4 @@ class SettingsActivity : AppCompatActivity() {
             settingsViewModel.openLink()
         }
     }
-
 }
