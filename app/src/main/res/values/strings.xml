@@ -29,5 +29,12 @@
     <string name="emailMessage">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="emailSubject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="emailFromAddress">xxxxxvic@yandex.ru</string>
+    <string name="media_str">Медиатека</string>
+    <string name="favorites_str">Избранные треки</string>
+    <string name="playlist_str">Плейлисты</string>
+    <string name="empty_media">Ваша медиатека пуста</string>
+    <string name="empty_playlist">Вы не создали ни одного плейлиста</string>
+    <string name="new_playlist">Новый плейлист</string>
+
 
 </resources>

@@ -9,7 +9,8 @@ import com.example.playlistmaker.PLAYLIST_SETTINGS
 import com.example.playlistmaker.data.settings.SettingRepository
 
 class SettingRepositoryImpl(private val context: Context) : SettingRepository {
-    private val sharedPreferences = context.getSharedPreferences(PLAYLIST_SETTINGS, AppCompatActivity.MODE_PRIVATE)
+    private val sharedPreferences =
+        context.getSharedPreferences(PLAYLIST_SETTINGS, AppCompatActivity.MODE_PRIVATE)
 
     override fun getStoredTheme(): Boolean {
         return sharedPreferences.getBoolean(DARK_THEME_KEY, false)

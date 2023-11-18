@@ -7,7 +7,7 @@ import android.net.Uri
 import com.example.playlistmaker.data.model.EmailData
 import com.example.playlistmaker.data.sharing.ExternalNavigator
 
-class ExternalNavigatorImpl(private val context: Context):ExternalNavigator {
+class ExternalNavigatorImpl(private val context: Context) : ExternalNavigator {
 
     override fun shareLink(sharedLink: String) {
 

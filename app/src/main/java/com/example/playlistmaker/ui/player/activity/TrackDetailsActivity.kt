@@ -50,7 +50,7 @@ class TrackDetailsActivity : AppCompatActivity() {
             trackDetailViewModel.playbackControl()
         }
 
-        trackDetailViewModel.track.observe(this) {track ->
+        trackDetailViewModel.track.observe(this) { track ->
             fun getCoverArtwork() = track.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
 
             binding.artistName.text = track.artistName
@@ -58,21 +58,19 @@ class TrackDetailsActivity : AppCompatActivity() {
             binding.trackDuration.text =
                 SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
             binding.trackAlbum.text = track.collectionName
-            binding.trackYear.text = if (track.releaseDate.length > 4) track.releaseDate.substring(0, 4) else track.releaseDate
+            binding.trackYear.text = if (track.releaseDate.length > 4) track.releaseDate.substring(
+                0, 4
+            ) else track.releaseDate
             binding.trackGenre.text = track.primaryGenreName
             binding.trackCountry.text = track.country
 
-            Glide.with(this)
-                .load(getCoverArtwork())
-                .placeholder(R.drawable.placeholder_big)
-                .centerInside()
-                .transform(RoundedCorners(10))
-                .into(binding.trackCover)
+            Glide.with(this).load(getCoverArtwork()).placeholder(R.drawable.placeholder_big)
+                .centerInside().transform(RoundedCorners(10)).into(binding.trackCover)
         }
 
 
-        trackDetailViewModel.playingStatus.observe(this) {it ->
-            binding.play.isEnabled =  true
+        trackDetailViewModel.playingStatus.observe(this) { it ->
+            binding.play.isEnabled = true
             if (it == PlayingStatus.PLAY) {
                 binding.play.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.play))
             } else if (it == PlayingStatus.PAUSE) {
@@ -80,7 +78,7 @@ class TrackDetailsActivity : AppCompatActivity() {
             }
         }
 
-        trackDetailViewModel.currentPlayPosition.observe(this) {currentPlayPosition ->
+        trackDetailViewModel.currentPlayPosition.observe(this) { currentPlayPosition ->
             val tempStr: String = if (currentPlayPosition < 10) {
                 "00:0$currentPlayPosition"
             } else {

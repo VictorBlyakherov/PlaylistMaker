@@ -13,8 +13,10 @@ import com.example.playlistmaker.domain.search.SearchInteractor
 import com.example.playlistmaker.ui.player.activity.TrackDetailsActivity
 
 
-
-class SearchViewModel(private val searchInteractor: SearchInteractor, private val searchHistoryInteractor:SearchHistoryInteractor): ViewModel() {
+class SearchViewModel(
+    private val searchInteractor: SearchInteractor,
+    private val searchHistoryInteractor: SearchHistoryInteractor
+) : ViewModel() {
 
     private var _searchStatusMutable = MutableLiveData<SearchStatuses>()
     val searchStatus: LiveData<SearchStatuses> = _searchStatusMutable
@@ -27,7 +29,7 @@ class SearchViewModel(private val searchInteractor: SearchInteractor, private va
     val isShowHistoryList: LiveData<Boolean> = _isShowHistoryListMutable
 
 
-    fun getTrackHistoryList() : LiveData<List<Track>> {
+    fun getTrackHistoryList(): LiveData<List<Track>> {
         return _trackHistoryListMutable
     }
 
@@ -59,7 +61,7 @@ class SearchViewModel(private val searchInteractor: SearchInteractor, private va
         _isShowHistoryListMutable.value = false
     }
 
-    fun clearHistory(){
+    fun clearHistory() {
         searchHistoryInteractor.clearHistory()
         _trackHistoryListMutable.value = listOf()
     }
@@ -85,21 +87,21 @@ class SearchViewModel(private val searchInteractor: SearchInteractor, private va
     fun searchTrack(queryString: String) {
 
         _searchStatusMutable.value = SearchStatuses.IN_PROGRESS
-        val resp = searchInteractor.searchTrack(queryString, object:
+        val resp = searchInteractor.searchTrack(queryString, object :
             SearchInteractor.TrackConsumer {
-                override fun consume(foundTracks: List<Track>?){
-                    if (foundTracks == null) {
-                        _searchStatusMutable.postValue(SearchStatuses.CONNECTION_ERROR)
+            override fun consume(foundTracks: List<Track>?) {
+                if (foundTracks == null) {
+                    _searchStatusMutable.postValue(SearchStatuses.CONNECTION_ERROR)
+                }
+                if (foundTracks != null) {
+                    if (foundTracks.isEmpty()) {
+                        _searchStatusMutable.postValue(SearchStatuses.EMPTY_RESULT)
+                    } else if (foundTracks.isNotEmpty()) {
+                        _trackListMutable.postValue(foundTracks!!)
+                        _searchStatusMutable.postValue(SearchStatuses.SUCCESS)
                     }
-                    if (foundTracks != null) {
-                        if (foundTracks.isEmpty()) {
-                            _searchStatusMutable.postValue(SearchStatuses.EMPTY_RESULT)
-                        } else if (foundTracks.isNotEmpty()) {
-                            _trackListMutable.postValue(foundTracks!!)
-                            _searchStatusMutable.postValue(SearchStatuses.SUCCESS)
-                        }
-                    }
-               }
+                }
+            }
         })
     }
 

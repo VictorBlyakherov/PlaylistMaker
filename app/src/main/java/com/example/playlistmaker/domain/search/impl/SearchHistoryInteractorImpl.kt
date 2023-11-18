@@ -22,7 +22,7 @@ class SearchHistoryInteractorImpl(private val repository: SearchHistoryRepositor
         repository.clearTrackList()
     }
 
-    override fun getTrackList() : MutableList<Track> {
+    override fun getTrackList(): MutableList<Track> {
         return repository.getTrackList()
     }
 

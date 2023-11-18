@@ -4,7 +4,7 @@ import android.media.MediaPlayer
 import com.example.playlistmaker.data.player.PlayTrackRepository
 import com.example.playlistmaker.domain.model.PlayerState
 
-class PlayTrackRepositoryImpl: PlayTrackRepository {
+class PlayTrackRepositoryImpl : PlayTrackRepository {
 
     private var mediaPlayer = MediaPlayer()
     private var playerState = PlayerState.STATE_DEFAULT

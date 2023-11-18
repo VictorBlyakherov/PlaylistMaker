@@ -21,8 +21,6 @@ import com.example.playlistmaker.ui.search.view_model.SearchViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-
-
 class SearchActivity : AppCompatActivity() {
 
     private val searchViewModel by viewModel<SearchViewModel>()
@@ -47,7 +45,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var adapterHistory: TrackAdapter
 
 
-    private fun clickDebounce() : Boolean {
+    private fun clickDebounce(): Boolean {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
@@ -79,7 +77,7 @@ class SearchActivity : AppCompatActivity() {
             binding.trackList.visibility = View.GONE
         } else if (status == SearchStatuses.EMPTY_RESULT) {
             binding.progressBar.visibility = View.GONE
-            binding.technicalError.setImageResource(R.drawable.not_found_png)
+            binding.technicalError.setImageResource(R.drawable.not_found)
             binding.technicalErrorText.setText(R.string.notFound)
             binding.technicalError.visibility = View.VISIBLE
             binding.technicalErrorText.visibility = View.VISIBLE
@@ -126,10 +124,10 @@ class SearchActivity : AppCompatActivity() {
             setElements(it)
         }
 
-        searchViewModel.getTrackList().observe(this) {trackList ->
-            adapter = TrackAdapter ({
-                        onTrackClick(it)
-                    }, trackList)
+        searchViewModel.getTrackList().observe(this) { trackList ->
+            adapter = TrackAdapter({
+                onTrackClick(it)
+            }, trackList)
 
             binding.trackList.layoutManager = LinearLayoutManager(this)
             binding.trackList.adapter = adapter
@@ -138,7 +136,7 @@ class SearchActivity : AppCompatActivity() {
 
 
 
-        searchViewModel.getTrackHistoryList().observe(this) {trackList ->
+        searchViewModel.getTrackHistoryList().observe(this) { trackList ->
             adapterHistory = TrackAdapter({
                 onTrackClick(it)
             }, trackList)
@@ -146,7 +144,7 @@ class SearchActivity : AppCompatActivity() {
             binding.historyList.layoutManager = LinearLayoutManager(this)
             binding.historyList.adapter = adapterHistory
             adapterHistory.notifyDataSetChanged()
-    }
+        }
 
         searchViewModel.isShowHistoryList.observe(this) {
             if (it) {

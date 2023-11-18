@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 import java.lang.Exception
 
-class RetrofitNetworkClient(private val appleTrackService: AppleMusicApi): NetworkClient {
+class RetrofitNetworkClient(private val appleTrackService: AppleMusicApi) : NetworkClient {
 
     override fun doRequest(dto: Any): Response {
         if (dto is TrackSearchRequest) {
