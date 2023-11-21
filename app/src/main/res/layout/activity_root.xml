@@ -4,42 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.root.activity.RootActivity"
-    >
+    tools:context=".ui.root.activity.RootActivity">
 
-<androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rootFragmentContainerView"
-    app:layout_constraintBottom_toTopOf="@id/horizontalLine"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    android:name="androidx.navigation.fragment.NavHostFragment"
-    app:defaultNavHost="true"
-    app:navGraph="@navigation/main_navigation_graph"
-    />
+    <androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rootFragmentContainerView"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@id/horizontalLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/main_navigation_graph" />
 
     <View
         android:id="@+id/horizontalLine"
         android:layout_width="match_parent"
-        android:background="@color/light_gray"
         android:layout_height="0.5dp"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/light_gray"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
 
         />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
+        style="@style/dayNightNav"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_navigation_menu"
-        style="@style/dayNightNav"
-        />
+        app:menu="@menu/bottom_navigation_menu" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

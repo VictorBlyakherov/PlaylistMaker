@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +41,7 @@ class SearchFragment: Fragment() {
     private lateinit var adapter: TrackAdapter
 
     private lateinit var adapterHistory: TrackAdapter
+
 
 
     private fun clickDebounce(): Boolean {
@@ -98,6 +100,11 @@ class SearchFragment: Fragment() {
     }
 
 
+    override fun onPause() {
+        super.onPause()
+        searchViewModel.setPaused(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -106,13 +113,18 @@ class SearchFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
+
+        binding.searchEditText.isSaveEnabled = false
 
 
         binding.clearIcon.setOnClickListener {
             searchViewModel.clearSearchText()
             binding.searchEditText.setText("")
         }
+
+
 
         searchViewModel.searchStatus.observe(viewLifecycleOwner) {
             setElements(it)
@@ -199,6 +211,9 @@ class SearchFragment: Fragment() {
             }
         }
 
+        searchViewModel.setPaused(false)
+        binding.searchEditText.setText(searchViewModel.getLastQuery())
+
     }
 
     private fun clearButtonVisibility(s: CharSequence?): Int {
@@ -229,10 +244,6 @@ class SearchFragment: Fragment() {
         if (clickDebounce()) {
             searchViewModel.clickTrack(requireContext(), trackId)
         }
-    }
-
-    companion object {
-        const val SEARCH_TEXT = "SEARCH_TEXT"
     }
 
 
