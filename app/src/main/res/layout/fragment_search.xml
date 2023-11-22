@@ -5,23 +5,14 @@
     style="@style/settingsBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.example.playlistmaker.ui.search.fragment.SearchFragment"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/backSearch"
-            style="@style/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:backgroundTint="?attr/colorOnPrimary"
-            android:contentDescription="@string/back"
-            android:paddingHorizontal="8dp"
-            android:src="@drawable/back_svg" />
 
         <TextView
             style="@style/dayNightTextColor"
@@ -30,6 +21,7 @@
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/ys_font"
             android:text="@string/search"
+            android:layout_marginLeft="12dp"
             android:textFontWeight="500"
             android:textSize="22sp"
             android:textStyle="normal" />

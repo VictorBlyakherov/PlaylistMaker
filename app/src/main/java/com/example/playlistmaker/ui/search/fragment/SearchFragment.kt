@@ -1,30 +1,32 @@
-package com.example.playlistmaker.ui.search.activity
+package com.example.playlistmaker.ui.search.fragment
 
-
-import android.annotation.SuppressLint
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
-
-import com.example.playlistmaker.databinding.ActivitySearchBinding
+import com.example.playlistmaker.databinding.FragmentSearchBinding
+import com.example.playlistmaker.databinding.FragmentSettingsBinding
 import com.example.playlistmaker.domain.model.SearchStatuses
+import com.example.playlistmaker.ui.search.activity.TrackAdapter
 import com.example.playlistmaker.ui.search.view_model.SearchViewModel
+import com.example.playlistmaker.ui.settings.view_model.SettingsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+class SearchFragment : Fragment() {
 
-class SearchActivity : AppCompatActivity() {
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
 
     private val searchViewModel by viewModel<SearchViewModel>()
-
 
     private val CLICK_DEBOUNCE_DELAY = 1000L
 
@@ -37,8 +39,6 @@ class SearchActivity : AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
 
     private var searchText: String = ""
-
-    private lateinit var binding: ActivitySearchBinding
 
     private lateinit var adapter: TrackAdapter
 
@@ -101,52 +101,64 @@ class SearchActivity : AppCompatActivity() {
     }
 
 
-    @SuppressLint("NotifyDataSetChanged")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onPause() {
+        super.onPause()
+        searchViewModel.setPaused(true)
+    }
 
-        binding = ActivitySearchBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        binding.backSearch.setOnClickListener {
-            this.finish()
-        }
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.searchEditText.isSaveEnabled = false
+
 
         binding.clearIcon.setOnClickListener {
             searchViewModel.clearSearchText()
             binding.searchEditText.setText("")
         }
 
-        searchViewModel.searchStatus.observe(this) {
+
+
+        searchViewModel.searchStatus.observe(viewLifecycleOwner) {
             setElements(it)
         }
 
-        searchViewModel.getTrackList().observe(this) { trackList ->
+        searchViewModel.getTrackList().observe(viewLifecycleOwner) { trackList ->
             adapter = TrackAdapter({
                 onTrackClick(it)
             }, trackList)
 
-            binding.trackList.layoutManager = LinearLayoutManager(this)
+            binding.trackList.layoutManager = LinearLayoutManager(requireContext())
             binding.trackList.adapter = adapter
             adapter.notifyDataSetChanged()
         }
 
 
 
-        searchViewModel.getTrackHistoryList().observe(this) { trackList ->
+        searchViewModel.getTrackHistoryList().observe(viewLifecycleOwner) { trackList ->
             adapterHistory = TrackAdapter({
                 onTrackClick(it)
             }, trackList)
 
-            binding.historyList.layoutManager = LinearLayoutManager(this)
+            binding.historyList.layoutManager = LinearLayoutManager(requireContext())
             binding.historyList.adapter = adapterHistory
             adapterHistory.notifyDataSetChanged()
         }
 
-        searchViewModel.isShowHistoryList.observe(this) {
+        searchViewModel.isShowHistoryList.observe(viewLifecycleOwner) {
             if (it) {
                 showTrackHistory()
             } else {
@@ -205,17 +217,9 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-    }
+        searchViewModel.setPaused(false)
+        binding.searchEditText.setText(searchViewModel.getLastQuery())
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(SEARCH_TEXT, searchText)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        searchText = savedInstanceState.getString(SEARCH_TEXT, "")
-        binding.searchEditText.setText(searchText)
     }
 
     private fun clearButtonVisibility(s: CharSequence?): Int {
@@ -244,13 +248,7 @@ class SearchActivity : AppCompatActivity() {
 
     fun onTrackClick(trackId: Int) {
         if (clickDebounce()) {
-            searchViewModel.clickTrack(this, trackId)
+            searchViewModel.clickTrack(requireContext(), trackId)
         }
     }
-
-    companion object {
-        const val SEARCH_TEXT = "SEARCH_TEXT"
-    }
-
-
 }
