@@ -4,6 +4,8 @@ package com.example.playlistmaker.data.search.network
 import com.example.playlistmaker.data.search.AppleMusicApi
 import com.example.playlistmaker.data.search.dto.Response
 import com.example.playlistmaker.data.search.dto.TrackSearchRequest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -11,20 +13,22 @@ import java.lang.Exception
 
 class RetrofitNetworkClient(private val appleTrackService: AppleMusicApi) : NetworkClient {
 
-    override fun doRequest(dto: Any): Response {
-        if (dto is TrackSearchRequest) {
-            try {
-                val resp = appleTrackService.findTrack(dto.queryString).execute()
-
-                val body = resp.body() ?: Response()
-
-                return body.apply { resultCode = resp.code() }
-            } catch (e: Exception) {
-                return Response().apply { resultCode = 400 }
-            }
-        } else {
+    override suspend fun doRequest(dto: Any): Response {
+        if (dto !is TrackSearchRequest) {
             return Response().apply { resultCode = 400 }
         }
+
+        return withContext(Dispatchers.IO) {
+            try {
+                val resp = appleTrackService.findTrack(dto.queryString)
+                resp.apply { resultCode = 200 }
+
+            } catch (e: Throwable) {
+                Response().apply { resultCode = 500 }
+            }
+
+        }
+
 
     }
 

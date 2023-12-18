@@ -3,7 +3,6 @@ package com.example.playlistmaker.ui.player.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
@@ -79,12 +78,7 @@ class TrackDetailsActivity : AppCompatActivity() {
         }
 
         trackDetailViewModel.currentPlayPosition.observe(this) { currentPlayPosition ->
-            val tempStr: String = if (currentPlayPosition < 10) {
-                "00:0$currentPlayPosition"
-            } else {
-                "00:$currentPlayPosition"
-            }
-            binding.playDuration.text = tempStr
+            binding.playDuration.text = currentPlayPosition
 
         }
     }

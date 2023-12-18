@@ -41,4 +41,8 @@ class PlayTrackRepositoryImpl : PlayTrackRepository {
     override fun getPlayerState(): PlayerState {
         return playerState
     }
+
+    override fun getCurrentPosition(): Int {
+        return mediaPlayer.currentPosition
+    }
 }

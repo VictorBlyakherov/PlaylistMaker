@@ -1,8 +1,7 @@
 package com.example.playlistmaker.ui.search.fragment
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -11,14 +10,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSearchBinding
-import com.example.playlistmaker.databinding.FragmentSettingsBinding
 import com.example.playlistmaker.domain.model.SearchStatuses
 import com.example.playlistmaker.ui.search.activity.TrackAdapter
 import com.example.playlistmaker.ui.search.view_model.SearchViewModel
-import com.example.playlistmaker.ui.settings.view_model.SettingsViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
@@ -30,13 +30,7 @@ class SearchFragment : Fragment() {
 
     private val CLICK_DEBOUNCE_DELAY = 1000L
 
-    private val SEARCH_DEBOUNCE_DELAY = 2000L
-
-    private val searchRunnable = Runnable { searchTrack() }
-
     private var isClickAllowed = true
-
-    private val handler = Handler(Looper.getMainLooper())
 
     private var searchText: String = ""
 
@@ -46,19 +40,17 @@ class SearchFragment : Fragment() {
 
 
     private fun clickDebounce(): Boolean {
+
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY)
+                isClickAllowed = true
+            }
         }
         return current
     }
-
-    private fun searchDebounce() {
-        handler.removeCallbacks(searchRunnable)
-        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
-    }
-
 
     private fun setElements(status: SearchStatuses) {
         if (status == SearchStatuses.SUCCESS) {
@@ -103,7 +95,7 @@ class SearchFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        searchViewModel.setPaused(true)
+        searchViewModel.setPaused()
     }
 
     override fun onCreateView(
@@ -182,7 +174,7 @@ class SearchFragment : Fragment() {
                     searchViewModel.hideHistoryList()
                 }
 
-                searchDebounce()
+                searchViewModel.searchDebounce(s.toString())
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -217,8 +209,7 @@ class SearchFragment : Fragment() {
             }
         }
 
-        searchViewModel.setPaused(false)
-        binding.searchEditText.setText(searchViewModel.getLastQuery())
+//        binding.searchEditText.setText(searchViewModel.getLastQuery())
 
     }
 
