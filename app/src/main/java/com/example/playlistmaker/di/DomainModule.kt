@@ -2,6 +2,8 @@ package com.example.playlistmaker.di
 
 import com.example.playlistmaker.data.sharing.ExternalNavigator
 import com.example.playlistmaker.data.sharing.impl.ExternalNavigatorImpl
+import com.example.playlistmaker.domain.favorites.FavoritesInteractor
+import com.example.playlistmaker.domain.favorites.impl.FavoritesInteractorImpl
 import com.example.playlistmaker.domain.player.PlayTrackInteractor
 import com.example.playlistmaker.domain.player.impl.PlayTrackInteractorImpl
 import com.example.playlistmaker.domain.search.SearchHistoryInteractor
@@ -40,5 +42,7 @@ val domainModule = module {
     factory<ExternalNavigator> {
         ExternalNavigatorImpl(context = get())
     }
+
+    single<FavoritesInteractor> { FavoritesInteractorImpl(get()) }
 
 }

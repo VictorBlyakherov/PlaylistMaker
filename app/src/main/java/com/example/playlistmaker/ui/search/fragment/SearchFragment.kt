@@ -4,7 +4,6 @@ import android.os.Bundle
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.domain.model.SearchStatuses
-import com.example.playlistmaker.ui.search.activity.TrackAdapter
+import com.example.playlistmaker.ui.common.TrackAdapter
 import com.example.playlistmaker.ui.search.view_model.SearchViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

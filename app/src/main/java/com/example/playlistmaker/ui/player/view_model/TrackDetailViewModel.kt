@@ -1,6 +1,7 @@
 package com.example.playlistmaker.ui.player.view_model
 
 import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.domain.model.PlayerState
 import com.example.playlistmaker.domain.model.PlayingStatus
 import com.example.playlistmaker.data.model.Track
+import com.example.playlistmaker.domain.favorites.FavoritesInteractor
 import com.example.playlistmaker.domain.player.PlayTrackInteractor
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -16,7 +18,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-class TrackDetailViewModel(private val playTrackInteractor: PlayTrackInteractor) : ViewModel() {
+class TrackDetailViewModel(private val playTrackInteractor: PlayTrackInteractor, private val favoritesInteractor: FavoritesInteractor) : ViewModel() {
 
     private var timerJob: Job? = null
 
@@ -31,6 +33,19 @@ class TrackDetailViewModel(private val playTrackInteractor: PlayTrackInteractor)
     private var _trackMutable = MutableLiveData<Track>()
     val track: LiveData<Track> = _trackMutable
 
+    fun setFavorites() {
+        if (_trackMutable.value!!.isInFavorites) {
+            viewModelScope.launch { favoritesInteractor.deleteFromFavorites(_trackMutable.value!!) }
+
+        } else {
+            Log.d("AAAA", "2")
+            viewModelScope.launch { favoritesInteractor.addToFavorites(_trackMutable.value!!) }
+
+        }
+
+        _trackMutable.value!!.isInFavorites = !_trackMutable.value!!.isInFavorites
+
+    }
 
     fun preparePlayer(intent: Intent) {
         _trackMutable.value = intent.getSerializableExtra("track") as? Track

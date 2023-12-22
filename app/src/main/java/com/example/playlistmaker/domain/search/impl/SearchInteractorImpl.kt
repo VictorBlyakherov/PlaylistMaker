@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 import java.util.concurrent.Executors
 
 class SearchInteractorImpl(private val repository: SearchRepository) : SearchInteractor {
-    private val executor = Executors.newCachedThreadPool()
 
     override fun searchTrack(queryString: String): Flow<List<Track>?> {
        return repository.searchTrack(queryString)
