@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import com.example.playlistmaker.data.search.SearchHistoryRepository
 
-import com.example.playlistmaker.domain.model.Track
+import com.example.playlistmaker.data.model.Track
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

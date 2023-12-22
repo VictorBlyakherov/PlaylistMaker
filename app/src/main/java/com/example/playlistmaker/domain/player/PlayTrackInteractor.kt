@@ -9,5 +9,5 @@ interface PlayTrackInteractor {
     fun stopPlayer()
     fun setTrackCompletionListener(listener: () -> Unit)
     fun getPlayerState(): PlayerState
-
+    fun getCurrentPosition(): Int
 }

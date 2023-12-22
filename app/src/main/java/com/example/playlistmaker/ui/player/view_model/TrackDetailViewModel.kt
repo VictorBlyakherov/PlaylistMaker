@@ -1,42 +1,35 @@
 package com.example.playlistmaker.ui.player.view_model
 
 import android.content.Intent
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.domain.model.PlayerState
 import com.example.playlistmaker.domain.model.PlayingStatus
-import com.example.playlistmaker.domain.model.Track
+import com.example.playlistmaker.data.model.Track
 import com.example.playlistmaker.domain.player.PlayTrackInteractor
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class TrackDetailViewModel(private val playTrackInteractor: PlayTrackInteractor) : ViewModel() {
 
-    private val PLAY_DEBOUNCE_DELAY = 1000L
+    private var timerJob: Job? = null
+
+    private val PLAY_DEBOUNCE_DELAY = 300L
 
     private var _playingStatusMutable = MutableLiveData<PlayingStatus>()
     val playingStatus: LiveData<PlayingStatus> = _playingStatusMutable
 
-    private var _currentPlayPositionMutable = MutableLiveData<Int>()
-    val currentPlayPosition: LiveData<Int> = _currentPlayPositionMutable
+    private var _currentPlayPositionMutable = MutableLiveData<String>()
+    val currentPlayPosition: LiveData<String> = _currentPlayPositionMutable
 
     private var _trackMutable = MutableLiveData<Track>()
     val track: LiveData<Track> = _trackMutable
-
-    private val handler = Handler(Looper.getMainLooper())
-    private val timeChangeRunnable = increasePlayTime()
-
-    private fun increasePlayTime(): Runnable {
-
-        return object : Runnable {
-            override fun run() {
-                _currentPlayPositionMutable.value = _currentPlayPositionMutable.value?.plus(1)
-                handler.postDelayed(this, PLAY_DEBOUNCE_DELAY)
-            }
-        }
-    }
 
 
     fun preparePlayer(intent: Intent) {
@@ -50,43 +43,62 @@ class TrackDetailViewModel(private val playTrackInteractor: PlayTrackInteractor)
         }!!
 
         _playingStatusMutable.value = PlayingStatus.PLAY
-        handler.removeCallbacks(timeChangeRunnable)
         playTrackInteractor.preparePlayer(trackUrl)
-        _currentPlayPositionMutable.value = 0
+        _currentPlayPositionMutable.value = "00:00"
+
 
 
         playTrackInteractor.setTrackCompletionListener {
             _playingStatusMutable.value = PlayingStatus.PLAY
-            _currentPlayPositionMutable.value = 0
-            handler.removeCallbacks(timeChangeRunnable)
+            timerJob?.cancel()
+            _currentPlayPositionMutable.value = "00:00"
+
         }
 
     }
 
     fun pausePlayer() {
         playTrackInteractor.pausePlayer()
+        timerJob?.cancel()
     }
 
     fun stopPlayer() {
         playTrackInteractor.stopPlayer()
+        timerJob?.cancel()
+        _currentPlayPositionMutable.value = "00:00"
+
     }
+
+    fun startPlayer() {
+        playTrackInteractor.startPlayer()
+        startTimer()
+    }
+
 
     fun playbackControl() {
         when (playTrackInteractor.getPlayerState()) {
             PlayerState.STATE_PAUSED, PlayerState.STATE_PREPARED, PlayerState.STATE_DEFAULT -> {
-                handler.removeCallbacks(timeChangeRunnable)
                 _playingStatusMutable.value = PlayingStatus.PAUSE
-                playTrackInteractor.startPlayer()
-                handler.postDelayed(timeChangeRunnable, PLAY_DEBOUNCE_DELAY)
+                startPlayer()
             }
 
             PlayerState.STATE_PLAYING -> {
-                handler.removeCallbacks(timeChangeRunnable)
                 _playingStatusMutable.value = PlayingStatus.PLAY
-                playTrackInteractor.pausePlayer()
+                pausePlayer()
             }
         }
-
     }
 
+    private fun startTimer() {
+        timerJob = viewModelScope.launch {
+            while (playTrackInteractor.getPlayerState() == PlayerState.STATE_PLAYING) {
+                delay(PLAY_DEBOUNCE_DELAY)
+                _currentPlayPositionMutable.value = getCurrentPlayerPosition()
+            }
+        }
+    }
+
+    private fun getCurrentPlayerPosition(): String {
+        return SimpleDateFormat("mm:ss", Locale.getDefault()).format(playTrackInteractor.getCurrentPosition()) ?: "00:00"
+    }
 }

@@ -3,14 +3,20 @@ package com.example.playlistmaker.ui.search.view_model
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.playlistmaker.data.model.Track
 import com.example.playlistmaker.domain.model.SearchStatuses
-import com.example.playlistmaker.domain.model.Track
 import com.example.playlistmaker.domain.search.SearchHistoryInteractor
 import com.example.playlistmaker.domain.search.SearchInteractor
+import com.example.playlistmaker.domain.search.impl.SearchInteractorImpl
 import com.example.playlistmaker.ui.player.activity.TrackDetailsActivity
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class SearchViewModel(
@@ -24,20 +30,33 @@ class SearchViewModel(
     private var _trackListMutable = MutableLiveData<List<Track>>()
     private var _trackHistoryListMutable = MutableLiveData<List<Track>>()
 
-
-
     private var _isShowHistoryListMutable = MutableLiveData<Boolean>()
     val isShowHistoryList: LiveData<Boolean> = _isShowHistoryListMutable
 
-    private var isPaused: Boolean = false
-    private var lastQuery: String = ""
+    private var searchJob: Job? = null
 
-    fun getLastQuery():String {
-        return lastQuery
+    private val SEARCH_DEBOUNCE_DELAY = 2000L
+
+    private var latestSearchText: String? = null
+
+
+    fun searchDebounce(changedText: String) {
+        if (latestSearchText == changedText) {
+            return
+        }
+
+        latestSearchText = changedText
+
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(SEARCH_DEBOUNCE_DELAY)
+            searchTrack(changedText)
+        }
     }
 
-    fun setPaused(arg: Boolean) {
-        isPaused = arg
+
+    fun setPaused() {
+        searchJob?.cancel()
     }
 
     fun getTrackHistoryList(): LiveData<List<Track>> {
@@ -96,11 +115,10 @@ class SearchViewModel(
     }
 
     fun searchTrack(queryString: String) {
-        if (!isPaused and !queryString.equals(lastQuery)) {
-            _searchStatusMutable.value = SearchStatuses.IN_PROGRESS
-            val resp = searchInteractor.searchTrack(queryString, object :
-                SearchInteractor.TrackConsumer {
-                override fun consume(foundTracks: List<Track>?) {
+        _searchStatusMutable.value = SearchStatuses.IN_PROGRESS
+        viewModelScope.launch {
+            searchInteractor.searchTrack(queryString)
+                .collect { foundTracks: List<Track>? ->
                     if (foundTracks == null) {
                         _searchStatusMutable.postValue(SearchStatuses.CONNECTION_ERROR)
                     }
@@ -112,9 +130,8 @@ class SearchViewModel(
                             _searchStatusMutable.postValue(SearchStatuses.SUCCESS)
                         }
                     }
+
                 }
-            })
-            lastQuery = queryString
         }
     }
 

@@ -10,4 +10,5 @@ interface PlayTrackRepository {
     fun stop()
     fun setOnCompletionListener(listener: () -> Unit)
     fun getPlayerState(): PlayerState
+    fun getCurrentPosition(): Int
 }

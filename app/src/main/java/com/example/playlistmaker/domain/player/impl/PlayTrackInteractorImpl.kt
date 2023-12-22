@@ -29,4 +29,10 @@ class PlayTrackInteractorImpl(private val repository: PlayTrackRepository) : Pla
     override fun getPlayerState(): PlayerState {
         return repository.getPlayerState()
     }
+
+    override fun getCurrentPosition(): Int {
+        return repository.getCurrentPosition()
+    }
+
+
 }
