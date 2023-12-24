@@ -114,6 +114,10 @@
         <item name="android:background">#121212</item>
     </style>
 
+    <style name="trackDetailFavoritesButton">
+        <item name="android:background">#121212</item>
+    </style>
+
     <style name="dayNightNav" parent="Theme.MaterialComponents">
         <item name="android:fontFamily">@font/ys_font</item>
         <item name="android:textColor">@color/white</item>
@@ -122,6 +126,9 @@
         <item name="itemTextColor">@drawable/search_nav</item>
     </style>
 
-
+    <style name="switchTheme">
+        <item name="android:thumbTint">@color/switch_thumb_dark</item>
+        <item name="android:trackTint">@color/switch_track_dark</item>
+    </style>
 
 </resources>
