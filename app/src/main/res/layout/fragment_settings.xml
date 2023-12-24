@@ -51,7 +51,12 @@
             android:id="@+id/themeSwitch"
             android:layout_width="@dimen/fortyEightDP"
             android:layout_height="@dimen/fortyEightDP"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:thumbTint="@color/greyOrBlue"
+            android:trackTint="@color/greyOrBlue1"
+            tools:ignore="UseSwitchCompatOrMaterialXml"
+            android:tint="@color/greyOrWhite"
+            />
     </LinearLayout>
 
     <LinearLayout

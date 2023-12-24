@@ -57,7 +57,6 @@ class TrackDetailsActivity : AppCompatActivity() {
 
 
         trackDetailViewModel.track.observe(this) { track ->
-            Log.d("AAAA", "5")
 
             fun getCoverArtwork() = track.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
 
@@ -74,8 +73,10 @@ class TrackDetailsActivity : AppCompatActivity() {
 
             Glide.with(this).load(getCoverArtwork()).placeholder(R.drawable.placeholder_big)
                 .centerInside().transform(RoundedCorners(10)).into(binding.trackCover)
-            setFavoritesButton(track.isInFavorites)
+        }
 
+        trackDetailViewModel._isInFavorites.observe(this) {
+            setFavoritesButton(it)
         }
 
 
@@ -95,7 +96,6 @@ class TrackDetailsActivity : AppCompatActivity() {
     }
 
     fun setFavoritesButton(isInFavorites: Boolean){
-        Log.d("AAAA", "6")
 
         if (isInFavorites) {
             binding.addToFavorites.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.remove_from_favorites))

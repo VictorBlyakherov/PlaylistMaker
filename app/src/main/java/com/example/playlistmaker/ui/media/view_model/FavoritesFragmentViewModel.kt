@@ -20,6 +20,7 @@ class FavoritesFragmentViewModel(
     ) : ViewModel() {
 
     private var _favoriteListMutable = MutableLiveData<List<Track>>()
+    val _favoriteList: LiveData<List<Track>> = _favoriteListMutable
 
     private var _favoritesStatusMutable = MutableLiveData<FavoritesState>()
     val favoritesStatus: LiveData<FavoritesState> = _favoritesStatusMutable
@@ -30,10 +31,10 @@ class FavoritesFragmentViewModel(
 
     }
 
-    fun getFavoritesList():LiveData<List<Track>> {
+    fun fillFavoritesList(){
         viewModelScope.launch {
             _favoriteListMutable.value = listOf<Track>()
-            favoritesInteractor.getFavoritesTracks().collect {
+            favoritesInteractor.getFavoritesTracks().collect { it ->
                 if (it == null) {
                     _favoritesStatusMutable.postValue(FavoritesState.EMPTY_RESULT)
                 }
@@ -47,8 +48,6 @@ class FavoritesFragmentViewModel(
                 }
             }
         }
-
-        return _favoriteListMutable
     }
 
     fun clickTrack(context: Context, trackId: Int) {

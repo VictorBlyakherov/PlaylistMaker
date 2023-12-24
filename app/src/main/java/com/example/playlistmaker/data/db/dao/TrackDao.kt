@@ -16,10 +16,10 @@ interface TrackDao {
     @Delete(entity = TrackEntity::class)
     suspend fun deleteTrack(track: TrackEntity)
 
-    @Query("SELECT * FROM favorite_tracks_table")
+    @Query("SELECT * FROM favorite_tracks_table order by timeAdded desc")
     suspend fun getTracks(): List<TrackEntity>
 
-    @Query("SELECT * FROM favorite_tracks_table where trackId = :trackId")
-    suspend fun isInFavoritesTracks(trackId: Int): List<TrackEntity>
+    @Query("SELECT trackId FROM favorite_tracks_table")
+    suspend fun getFavoriteTracksId(): List<Int>
 
 }

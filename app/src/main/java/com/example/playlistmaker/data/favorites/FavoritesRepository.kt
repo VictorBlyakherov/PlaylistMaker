@@ -5,12 +5,26 @@ import kotlinx.coroutines.flow.Flow
 
 interface FavoritesRepository {
 
-    fun getFavoritesTracks(): Flow<List<Track>>
+    var favoritesMap: MutableMap<Int, Boolean>
 
-    suspend fun addToFavorites(track: Track): Flow<Boolean>
+    suspend fun fillMapForSearch(trackList: List<Track>, trackHistoryList: List<Track>)
 
-    fun deleteFromFavorites(track: Track): Flow<Boolean>
+    suspend fun fillMapForHistory(trackList: List<Track>)
 
-    fun isInFavorites(track: Track): Flow<Boolean>
+    suspend fun getMap(): MutableMap<Int, Boolean>
+
+    suspend fun addToMap(track: Track)
+
+    suspend fun removeFromMap(track: Track)
+
+    fun checkTrackForFavorites(track: Track): Boolean
+
+    suspend fun getFavoritesTracks(): Flow<List<Track>>
+
+    suspend fun addToFavorites(track: Track)
+
+    suspend fun deleteFromFavorites(track: Track)
+
+    suspend fun getFavoriteTracksId(): Flow<List<Int>>
 
 }

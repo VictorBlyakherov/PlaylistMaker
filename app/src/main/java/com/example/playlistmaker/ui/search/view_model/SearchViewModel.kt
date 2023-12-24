@@ -3,25 +3,29 @@ package com.example.playlistmaker.ui.search.view_model
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.data.model.Track
+import com.example.playlistmaker.domain.favorites.FavoritesInteractor
 import com.example.playlistmaker.domain.model.SearchStatuses
 import com.example.playlistmaker.domain.search.SearchHistoryInteractor
 import com.example.playlistmaker.domain.search.SearchInteractor
-import com.example.playlistmaker.domain.search.impl.SearchInteractorImpl
 import com.example.playlistmaker.ui.player.activity.TrackDetailsActivity
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 
 
 class SearchViewModel(
     private val searchInteractor: SearchInteractor,
-    private val searchHistoryInteractor: SearchHistoryInteractor
+    private val searchHistoryInteractor: SearchHistoryInteractor,
+    private val favoritesInteractor: FavoritesInteractor
 ) : ViewModel() {
 
     private var _searchStatusMutable = MutableLiveData<SearchStatuses>()
@@ -81,7 +85,13 @@ class SearchViewModel(
     fun showHistoryList() {
         _trackListMutable.value = listOf()
         searchHistoryInteractor.getHistoryList()
-        _trackHistoryListMutable.value = searchHistoryInteractor.getTrackList()
+
+        viewModelScope.launch {
+            val trackList = searchHistoryInteractor.getTrackList()!!
+            favoritesInteractor.fillMapForHistory(trackList)
+            _trackHistoryListMutable.postValue(trackList)
+        }
+
         _searchStatusMutable.value = SearchStatuses.SUCCESS
         _isShowHistoryListMutable.value = true
     }
@@ -108,6 +118,8 @@ class SearchViewModel(
                 }
         }
 
+        track!!.isInFavorites = favoritesInteractor.checkTrackForFavorites(track)
+
         val displayIntent = Intent(context, TrackDetailsActivity::class.java)
         displayIntent.putExtra("track", track)
         context.startActivity(displayIntent)
@@ -126,7 +138,10 @@ class SearchViewModel(
                         if (foundTracks.isEmpty()) {
                             _searchStatusMutable.postValue(SearchStatuses.EMPTY_RESULT)
                         } else if (foundTracks.isNotEmpty()) {
+
+                            favoritesInteractor.fillMapForSearch(foundTracks!!, searchHistoryInteractor.getTrackList())
                             _trackListMutable.postValue(foundTracks!!)
+
                             _searchStatusMutable.postValue(SearchStatuses.SUCCESS)
                         }
                     }
@@ -134,5 +149,6 @@ class SearchViewModel(
                 }
         }
     }
+
 
 }

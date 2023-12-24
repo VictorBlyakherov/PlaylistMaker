@@ -57,7 +57,7 @@ val dataModule = module {
     }
 
     single {
-        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.bd").build()
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database1.bd").build()
     }
 
     factory {

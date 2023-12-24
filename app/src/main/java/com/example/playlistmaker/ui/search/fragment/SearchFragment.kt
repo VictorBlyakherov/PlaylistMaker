@@ -208,8 +208,6 @@ class SearchFragment : Fragment() {
             }
         }
 
-//        binding.searchEditText.setText(searchViewModel.getLastQuery())
-
     }
 
     private fun clearButtonVisibility(s: CharSequence?): Int {

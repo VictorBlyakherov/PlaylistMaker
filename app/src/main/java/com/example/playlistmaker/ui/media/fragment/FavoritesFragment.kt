@@ -40,23 +40,11 @@ class FavoritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        favoritesFragmentViewModel.getFavoritesList()
+        favoritesFragmentViewModel.fillFavoritesList()
 
         favoritesFragmentViewModel.favoritesStatus.observe(viewLifecycleOwner) { it ->
-
-            val trackList = favoritesFragmentViewModel.getFavoritesList().value
-
-            adapter = TrackAdapter({
-                onTrackClick(it)
-            }, trackList!!)
-
-            binding.favoritesList.layoutManager = LinearLayoutManager(requireContext())
-            binding.favoritesList.adapter = adapter
-            adapter.notifyDataSetChanged()
             setElement(it)
         }
-
-
 
     }
 
@@ -88,9 +76,23 @@ class FavoritesFragment : Fragment() {
             binding.favoritesEmptyLayout.visibility = View.VISIBLE
             binding.favoritesLayout.visibility = View.INVISIBLE
         } else if (status == FavoritesState.SUCCESS) {
+            val trackList = favoritesFragmentViewModel._favoriteList.value
+
+            adapter = TrackAdapter({
+                onTrackClick(it)
+            }, trackList!!)
+
+            binding.favoritesList.layoutManager = LinearLayoutManager(requireContext())
+            binding.favoritesList.adapter = adapter
+            adapter.notifyDataSetChanged()
             binding.favoritesEmptyLayout.visibility = View.INVISIBLE
             binding.favoritesLayout.visibility = View.VISIBLE
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        favoritesFragmentViewModel.fillFavoritesList()
     }
 
 }
