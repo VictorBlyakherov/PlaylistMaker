@@ -52,7 +52,9 @@
             android:maxLength="30"
             android:paddingLeft="@dimen/sixteenDP"
             android:singleLine="true"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textCursorDrawable="@drawable/color_cursor"
+            />
 
         <ImageView
             android:id="@+id/clearIcon"

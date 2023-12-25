@@ -2,6 +2,7 @@ package com.example.playlistmaker.ui.player.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -49,7 +50,14 @@ class TrackDetailsActivity : AppCompatActivity() {
             trackDetailViewModel.playbackControl()
         }
 
+        binding.addToFavorites.setOnClickListener {
+            trackDetailViewModel.setFavorites()
+        }
+
+
+
         trackDetailViewModel.track.observe(this) { track ->
+
             fun getCoverArtwork() = track.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
 
             binding.artistName.text = track.artistName
@@ -67,6 +75,10 @@ class TrackDetailsActivity : AppCompatActivity() {
                 .centerInside().transform(RoundedCorners(10)).into(binding.trackCover)
         }
 
+        trackDetailViewModel._isInFavorites.observe(this) {
+            setFavoritesButton(it)
+        }
+
 
         trackDetailViewModel.playingStatus.observe(this) { it ->
             binding.play.isEnabled = true
@@ -80,6 +92,15 @@ class TrackDetailsActivity : AppCompatActivity() {
         trackDetailViewModel.currentPlayPosition.observe(this) { currentPlayPosition ->
             binding.playDuration.text = currentPlayPosition
 
+        }
+    }
+
+    fun setFavoritesButton(isInFavorites: Boolean){
+
+        if (isInFavorites) {
+            binding.addToFavorites.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.remove_from_favorites))
+        } else {
+            binding.addToFavorites.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.add_to_favorites))
         }
     }
 

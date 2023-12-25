@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.domain.model.PlayerState
 import com.example.playlistmaker.domain.model.PlayingStatus
 import com.example.playlistmaker.data.model.Track
+import com.example.playlistmaker.domain.favorites.FavoritesInteractor
 import com.example.playlistmaker.domain.player.PlayTrackInteractor
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -16,7 +17,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-class TrackDetailViewModel(private val playTrackInteractor: PlayTrackInteractor) : ViewModel() {
+class TrackDetailViewModel(private val playTrackInteractor: PlayTrackInteractor, private val favoritesInteractor: FavoritesInteractor) : ViewModel() {
 
     private var timerJob: Job? = null
 
@@ -31,6 +32,26 @@ class TrackDetailViewModel(private val playTrackInteractor: PlayTrackInteractor)
     private var _trackMutable = MutableLiveData<Track>()
     val track: LiveData<Track> = _trackMutable
 
+    private var _isInFavoritesMutable = MutableLiveData<Boolean>()
+    val _isInFavorites: LiveData<Boolean> = _isInFavoritesMutable
+
+    fun setFavorites() {
+        if (_trackMutable.value!!.isInFavorites) {
+            viewModelScope.launch {
+                favoritesInteractor.deleteFromFavorites(_trackMutable.value!!)
+                favoritesInteractor.removeFromMap(_trackMutable.value!!)
+            }
+        } else {
+            viewModelScope.launch {
+                favoritesInteractor.addToFavorites(_trackMutable.value!!)
+                favoritesInteractor.addToMap(_trackMutable.value!!)
+            }
+        }
+
+        _trackMutable.value!!.isInFavorites = !_trackMutable.value!!.isInFavorites
+        _isInFavoritesMutable.postValue(!_isInFavoritesMutable.value!!)
+
+    }
 
     fun preparePlayer(intent: Intent) {
         _trackMutable.value = intent.getSerializableExtra("track") as? Track
@@ -55,6 +76,7 @@ class TrackDetailViewModel(private val playTrackInteractor: PlayTrackInteractor)
 
         }
 
+        _isInFavoritesMutable.value = _trackMutable.value!!.isInFavorites
     }
 
     fun pausePlayer() {

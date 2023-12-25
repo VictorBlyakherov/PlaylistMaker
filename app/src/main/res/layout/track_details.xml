@@ -126,7 +126,7 @@
 
     <ImageButton
         android:id="@+id/addToFavorites"
-        style="@style/trackDetailButtonGray"
+        style="@style/trackDetailFavoritesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"

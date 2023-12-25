@@ -47,11 +47,15 @@
             android:layout_weight="1"
             android:text="@string/black_theme" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
+        <Switch
             android:id="@+id/themeSwitch"
-            android:layout_width="@dimen/fortyEightDP"
-            android:layout_height="@dimen/fortyEightDP"
-            android:layout_gravity="center" />
+            style="@style/switchTheme"
+            android:layout_width="56dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            tools:ignore="UseSwitchCompatOrMaterialXml"
+
+            />
     </LinearLayout>
 
     <LinearLayout
