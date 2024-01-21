@@ -3,6 +3,7 @@ package com.example.playlistmaker.ui.search.view_model
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,12 +14,9 @@ import com.example.playlistmaker.domain.favorites.FavoritesInteractor
 import com.example.playlistmaker.domain.model.SearchStatuses
 import com.example.playlistmaker.domain.search.SearchHistoryInteractor
 import com.example.playlistmaker.domain.search.SearchInteractor
-import com.example.playlistmaker.ui.player.activity.TrackDetailsActivity
+import com.example.playlistmaker.ui.player.fragment.TrackDetailFragment
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 
 
@@ -33,6 +31,7 @@ class SearchViewModel(
 
     private var _trackListMutable = MutableLiveData<List<Track>>()
     private var _trackHistoryListMutable = MutableLiveData<List<Track>>()
+    private var isClickAllowed = true
 
     private var _isShowHistoryListMutable = MutableLiveData<Boolean>()
     val isShowHistoryList: LiveData<Boolean> = _isShowHistoryListMutable
@@ -40,6 +39,8 @@ class SearchViewModel(
     private var searchJob: Job? = null
 
     private val SEARCH_DEBOUNCE_DELAY = 2000L
+
+    private val CLICK_DEBOUNCE_DELAY = 1000L
 
     private var latestSearchText: String? = null
 
@@ -106,7 +107,7 @@ class SearchViewModel(
         _trackHistoryListMutable.value = listOf()
     }
 
-    fun clickTrack(context: Context, trackId: Int) {
+    fun clickTrack(trackId: Int): Track {
 
         var track = _trackListMutable.value?.find { it.trackId == trackId }
         if (track != null) {
@@ -120,10 +121,7 @@ class SearchViewModel(
 
         track!!.isInFavorites = favoritesInteractor.checkTrackForFavorites(track)
 
-        val displayIntent = Intent(context, TrackDetailsActivity::class.java)
-        displayIntent.putExtra("track", track)
-        context.startActivity(displayIntent)
-
+        return track!!
     }
 
     fun searchTrack(queryString: String) {
@@ -148,6 +146,19 @@ class SearchViewModel(
 
                 }
         }
+    }
+
+    fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            viewModelScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY)
+                isClickAllowed = true
+            }
+
+        }
+        return current
     }
 
 

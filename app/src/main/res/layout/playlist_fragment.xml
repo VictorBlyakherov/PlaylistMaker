@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,31 +9,35 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
+        android:visibility="visible"
 
-        >
-
-        <Button
-            android:id="@+id/technicalErrorButton"
-            style="@style/refreshButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/ys_font"
-            android:text="@string/new_playlist"
-            android:textAllCaps="false"
-            android:textSize="14sp"
-            app:cornerRadius="54dp" />
+    >
+    <Button
+        android:id="@+id/addPlaylistButton"
+        style="@style/refreshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/ys_font"
+        android:text="@string/new_playlist"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        app:cornerRadius="54dp"
+        android:visibility="visible"/>
 
         <ImageView
-            android:id="@+id/favorites_error"
+            android:id="@+id/playlist_empty_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="46dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/not_found" />
+            android:src="@drawable/not_found"
+            android:visibility="gone"
+            />
 
         <TextView
+            android:id="@+id/playlist_empty_text"
             style="@style/searchResultMain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,6 +45,14 @@
             android:gravity="center_horizontal"
             android:paddingTop="16dp"
             android:text="@string/empty_playlist"
-            android:textSize="19sp" />
+            android:textSize="19sp"
+            android:visibility="gone"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/playlistRecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
     </LinearLayout>
-</FrameLayout>
+

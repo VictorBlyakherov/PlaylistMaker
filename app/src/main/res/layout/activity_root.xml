@@ -18,6 +18,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/main_navigation_graph" />
 
+
+
     <View
         android:id="@+id/horizontalLine"
         android:layout_width="match_parent"

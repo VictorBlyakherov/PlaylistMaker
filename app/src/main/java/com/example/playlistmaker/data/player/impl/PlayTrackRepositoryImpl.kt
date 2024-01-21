@@ -28,7 +28,7 @@ class PlayTrackRepositoryImpl : PlayTrackRepository {
     override fun stop() {
         mediaPlayer.stop()
         playerState = PlayerState.STATE_DEFAULT
-        mediaPlayer.release()
+        mediaPlayer.reset()
     }
 
     override fun setOnCompletionListener(listener: () -> Unit) {

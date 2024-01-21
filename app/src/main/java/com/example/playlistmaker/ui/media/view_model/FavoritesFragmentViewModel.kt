@@ -9,10 +9,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.data.model.Track
 import com.example.playlistmaker.domain.favorites.FavoritesInteractor
 import com.example.playlistmaker.domain.model.FavoritesState
-import com.example.playlistmaker.domain.model.SearchStatuses
-import com.example.playlistmaker.ui.player.activity.TrackDetailsActivity
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
+import com.example.playlistmaker.ui.player.fragment.TrackDetailFragment
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class FavoritesFragmentViewModel(
@@ -25,6 +23,9 @@ class FavoritesFragmentViewModel(
     private var _favoritesStatusMutable = MutableLiveData<FavoritesState>()
     val favoritesStatus: LiveData<FavoritesState> = _favoritesStatusMutable
 
+    private var isClickAllowed = true
+
+    private val CLICK_DEBOUNCE_DELAY = 1000L
 
 
     init {
@@ -50,11 +51,22 @@ class FavoritesFragmentViewModel(
         }
     }
 
-    fun clickTrack(context: Context, trackId: Int) {
+    fun clickTrack(trackId: Int): Track {
         val track = _favoriteListMutable.value?.find { it.trackId == trackId }
-        val displayIntent = Intent(context, TrackDetailsActivity::class.java)
-        displayIntent.putExtra("track", track)
-        context.startActivity(displayIntent)
+        return track!!
+    }
+
+    fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            viewModelScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY)
+                isClickAllowed = true
+            }
+
+        }
+        return current
     }
 
 

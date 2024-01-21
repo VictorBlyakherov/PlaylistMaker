@@ -4,18 +4,22 @@ import android.os.Bundle
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.domain.model.SearchStatuses
 import com.example.playlistmaker.ui.common.TrackAdapter
+import com.example.playlistmaker.ui.common.TrackDetailStorage
 import com.example.playlistmaker.ui.search.view_model.SearchViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -27,29 +31,12 @@ class SearchFragment : Fragment() {
 
     private val searchViewModel by viewModel<SearchViewModel>()
 
-    private val CLICK_DEBOUNCE_DELAY = 1000L
-
-    private var isClickAllowed = true
-
     private var searchText: String = ""
 
     private lateinit var adapter: TrackAdapter
 
     private lateinit var adapterHistory: TrackAdapter
 
-
-    private fun clickDebounce(): Boolean {
-
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            viewLifecycleOwner.lifecycleScope.launch {
-                delay(CLICK_DEBOUNCE_DELAY)
-                isClickAllowed = true
-            }
-        }
-        return current
-    }
 
     private fun setElements(status: SearchStatuses) {
         if (status == SearchStatuses.SUCCESS) {
@@ -110,8 +97,14 @@ class SearchFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
+
+        val fragmentActivity = getActivity();
+
+        if (fragmentActivity != null) {
+            fragmentActivity.findViewById<BottomNavigationView>(R.id.bottomNavigationView).setVisibility(View.VISIBLE);
+        }
+
 
         binding.searchEditText.isSaveEnabled = false
 
@@ -120,7 +113,6 @@ class SearchFragment : Fragment() {
             searchViewModel.clearSearchText()
             binding.searchEditText.setText("")
         }
-
 
 
         searchViewModel.searchStatus.observe(viewLifecycleOwner) {
@@ -235,8 +227,10 @@ class SearchFragment : Fragment() {
     }
 
     fun onTrackClick(trackId: Int) {
-        if (clickDebounce()) {
-            searchViewModel.clickTrack(requireContext(), trackId)
+        if (searchViewModel.clickDebounce()) {
+            val track = searchViewModel.clickTrack(trackId)
+            (requireActivity() as TrackDetailStorage).setTrackDetail(track)
+            findNavController().navigate(R.id.action_searchFragment_to_trackDetailFragment)
         }
     }
 }
