@@ -38,6 +38,11 @@
     <string name="bottomSearchNav">Поиск</string>
     <string name="bottomMediaNav">Медиатека</string>
     <string name="bottomSettingsNav">Настройки</string>
+    <string name="new_playlist_fragment">Новый плейлист</string>
+    <string name="playlist_name">Название*</string>
+    <string name="playlist_description">Описание</string>
+    <string name="create_button">Создать</string>
+    <string name="addToPlaylist">Добавить в плейлист</string>
 
 
 </resources>

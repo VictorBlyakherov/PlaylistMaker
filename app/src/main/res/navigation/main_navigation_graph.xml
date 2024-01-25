@@ -8,23 +8,37 @@
         android:name="com.example.playlistmaker.ui.media.fragment.MediaFragment"
         android:label="MediaFragment" >
         <action
-            android:id="@+id/action_mediaFragment_to_trackDetailsActivity"
-            app:destination="@id/trackDetailsActivity" />
+            android:id="@+id/action_mediaFragment_to_playlistAddFragment2"
+            app:destination="@id/playlistAddFragment" />
+        <action
+            android:id="@+id/action_mediaFragment_to_trackDetailFragment"
+            app:destination="@id/trackDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.playlistmaker.ui.search.fragment.SearchFragment"
         android:label="SearchFragment" >
         <action
-            android:id="@+id/action_searchFragment_to_trackDetailsActivity"
-            app:destination="@id/trackDetailsActivity" />
+            android:id="@+id/action_searchFragment_to_trackDetailFragment"
+            app:destination="@id/trackDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.playlistmaker.ui.settings.fragment.SettingsFragment"
         android:label="SettingsFragment" />
-    <activity
-        android:id="@+id/trackDetailsActivity"
-        android:name="com.example.playlistmaker.ui.player.activity.TrackDetailsActivity"
-        android:label="TrackDetailsActivity" />
+
+    <fragment
+        android:id="@+id/playlistAddFragment"
+        android:name="com.example.playlistmaker.ui.media.fragment.PlaylistAddFragment"
+        android:label="PlaylistAddFragment" />
+
+    <fragment
+        android:id="@+id/trackDetailFragment"
+        android:name="com.example.playlistmaker.ui.player.fragment.TrackDetailFragment"
+        android:label="TrackDetailFragment" >
+        <action
+            android:id="@+id/action_trackDetailFragment_to_playlistAddFragment"
+            app:destination="@id/playlistAddFragment" />
+    </fragment>
+
 </navigation>

@@ -1,9 +1,8 @@
 package com.example.playlistmaker.data.favorites.impl
 
-import android.util.Log
-import com.example.playlistmaker.data.converters.TrackDbConverter
+import com.example.playlistmaker.data.converters.FavoritesTrackDbConverter
 import com.example.playlistmaker.data.db.AppDatabase
-import com.example.playlistmaker.data.db.entity.TrackEntity
+import com.example.playlistmaker.data.db.entity.TrackFavoritesEntity
 import com.example.playlistmaker.data.favorites.FavoritesRepository
 import com.example.playlistmaker.data.model.Track
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +14,7 @@ import kotlinx.coroutines.flow.toList
 
 class FavoritesRepositoryImpl(
     private val appDatabase: AppDatabase,
-    private val trackDbConverter: TrackDbConverter
+    private val favoritesTrackDbConverter: FavoritesTrackDbConverter
     ): FavoritesRepository {
 
     override var favoritesMap: MutableMap<Int, Boolean> = mutableMapOf()
@@ -75,12 +74,12 @@ class FavoritesRepositoryImpl(
         emit(idList)
     }
 
-    private fun convertFromTrackEntity(tracks: List<TrackEntity>): List<Track> {
-        return tracks.map { track -> trackDbConverter.map(track) }
+    private fun convertFromTrackEntity(tracks: List<TrackFavoritesEntity>): List<Track> {
+        return tracks.map { track -> favoritesTrackDbConverter.map(track) }
     }
 
-    private fun convertToTrackEntity(track: Track): TrackEntity {
-        return trackDbConverter.map(track)
+    private fun convertToTrackEntity(track: Track): TrackFavoritesEntity {
+        return favoritesTrackDbConverter.map(track)
     }
 
 }

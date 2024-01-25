@@ -7,12 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FavoritesFragmentBinding
 import com.example.playlistmaker.di.viewModelModule
 import com.example.playlistmaker.domain.model.FavoritesState
 import com.example.playlistmaker.ui.common.TrackAdapter
+import com.example.playlistmaker.ui.common.TrackDetailStorage
 import com.example.playlistmaker.ui.media.view_model.FavoritesFragmentViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -40,6 +44,13 @@ class FavoritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val fragmentActivity = getActivity();
+
+        if (fragmentActivity != null) {
+            fragmentActivity.findViewById<BottomNavigationView>(R.id.bottomNavigationView).setVisibility(View.VISIBLE);
+        }
+
+
         favoritesFragmentViewModel.fillFavoritesList()
 
         favoritesFragmentViewModel.favoritesStatus.observe(viewLifecycleOwner) { it ->
@@ -53,23 +64,13 @@ class FavoritesFragment : Fragment() {
     }
 
     fun onTrackClick(trackId: Int) {
-        if (clickDebounce()) {
-            favoritesFragmentViewModel.clickTrack(requireContext(), trackId)
+        if (favoritesFragmentViewModel.clickDebounce()) {
+            val track = favoritesFragmentViewModel.clickTrack(trackId)
+            (requireActivity() as TrackDetailStorage).setTrackDetail(track)
+            findNavController().navigate(R.id.action_mediaFragment_to_trackDetailFragment)
         }
     }
 
-    private fun clickDebounce(): Boolean {
-
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            viewLifecycleOwner.lifecycleScope.launch {
-                delay(CLICK_DEBOUNCE_DELAY)
-                isClickAllowed = true
-            }
-        }
-        return current
-    }
 
     private fun setElement(status: FavoritesState) {
         if (status == FavoritesState.EMPTY_RESULT) {

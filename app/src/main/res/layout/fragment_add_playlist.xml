@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.playlistmaker.ui.media.fragment.PlaylistAddFragment"
+    >
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftGL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/topGL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.00" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottomGL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.97" />
+
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightGL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:id="@+id/ll_top"
+        app:layout_constraintTop_toBottomOf="@id/topGL"
+        app:layout_constraintStart_toEndOf="@id/leftGL"
+
+        >
+
+    <ImageButton
+        android:id="@+id/backTrackDetail"
+        style="@style/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:backgroundTint="?attr/colorOnPrimary"
+        android:contentDescription="@string/back"
+        android:src="@drawable/back_svg" />
+
+    <TextView
+        style="@style/dayNightTextColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_playlist_fragment"
+        android:fontFamily="@font/ys_font"
+        android:textFontWeight="500"
+        android:layout_gravity="center_vertical"
+        android:textSize="22sp"
+        android:layout_marginLeft="24dp"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_cover"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/playlist_cover"
+        app:layout_constraintBottom_toTopOf="@id/playlistName"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/rightGL"
+        app:layout_constraintStart_toStartOf="@+id/leftGL"
+        app:layout_constraintTop_toBottomOf="@id/ll_top"
+        android:layout_marginTop="26dp"
+        android:gravity="center"
+        >
+
+        <ImageView
+            android:id="@+id/playlist_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintDimensionRatio="1:1"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/add_cover"
+            />
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/playlistName"
+        style="@style/FloatingHintStyle"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="32dp"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeWidthFocused="1dp"
+        app:hintTextColor="#3772E7"
+        app:layout_constraintEnd_toStartOf="@id/rightGL"
+        app:layout_constraintStart_toEndOf="@id/leftGL"
+        app:layout_constraintTop_toBottomOf="@id/ll_cover">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nameEditText"
+            style="@style/TextInputEditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/playlist_name"
+            android:lines="1"
+
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/playlistDescription"
+        style="@style/FloatingHintStyle"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="32dp"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeWidthFocused="1dp"
+        app:hintTextColor="#3772E7"
+        app:layout_constraintStart_toEndOf="@id/leftGL"
+        app:layout_constraintEnd_toStartOf="@id/rightGL"
+        app:layout_constraintTop_toBottomOf="@id/playlistName">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/descEditText"
+            style="@style/TextInputEditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/playlist_description"
+            android:lines="1"
+
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+    <TextView
+        android:id="@+id/addButton"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:text="@string/create_button"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:clickable="true"
+        app:layout_constraintStart_toEndOf="@id/leftGL"
+        app:layout_constraintEnd_toStartOf="@id/rightGL"
+        app:layout_constraintBottom_toTopOf="@id/bottomGL"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/playlist_add_button_selector"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

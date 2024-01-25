@@ -12,6 +12,7 @@ import com.example.playlistmaker.databinding.FragmentSettingsBinding
 import com.example.playlistmaker.ui.media.activity.MediaPagerAdapter
 import com.example.playlistmaker.ui.media.view_model.FavoritesFragmentViewModel
 import com.example.playlistmaker.ui.search.view_model.SearchViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -35,6 +36,13 @@ class MediaFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val fragmentActivity = getActivity();
+
+        if (fragmentActivity != null) {
+            fragmentActivity.findViewById<BottomNavigationView>(R.id.bottomNavigationView).setVisibility(View.VISIBLE);
+        }
+
 
         binding.viewPager.adapter = MediaPagerAdapter(
             fragmentManager = childFragmentManager,
