@@ -27,11 +27,6 @@ class FavoritesFragmentViewModel(
 
     private val CLICK_DEBOUNCE_DELAY = 1000L
 
-
-    init {
-
-    }
-
     fun fillFavoritesList(){
         viewModelScope.launch {
             _favoriteListMutable.value = listOf<Track>()
@@ -64,11 +59,7 @@ class FavoritesFragmentViewModel(
                 delay(CLICK_DEBOUNCE_DELAY)
                 isClickAllowed = true
             }
-
         }
         return current
     }
-
-
-
 }

@@ -12,6 +12,7 @@ import com.example.playlistmaker.R
 import com.example.playlistmaker.data.model.Playlist
 import com.example.playlistmaker.databinding.PlaylistFragmentBinding
 import com.example.playlistmaker.ui.common.PlaylistAdapter
+import com.example.playlistmaker.ui.common.PlaylistDetailStorage
 import com.example.playlistmaker.ui.media.view_model.PlaylistFragmentViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -51,6 +52,7 @@ class PlaylistFragment : Fragment() {
         }
 
 
+
         binding.addPlaylistButton.setOnClickListener {
             findNavController().navigate(R.id.action_mediaFragment_to_playlistAddFragment2)
         }
@@ -72,7 +74,7 @@ class PlaylistFragment : Fragment() {
         } else {
             binding.playlistEmptyImage.visibility = View.GONE
             binding.playlistEmptyText.visibility = View.GONE
-            adapter = PlaylistAdapter(plList, requireContext())
+            adapter = PlaylistAdapter(plList) { onPlaylistClick(it) }
             binding.playlistRecycleView.layoutManager = GridLayoutManager(requireContext(), 2)
             binding.playlistRecycleView.adapter = adapter
             adapter.notifyDataSetChanged()
@@ -81,11 +83,12 @@ class PlaylistFragment : Fragment() {
         }
     }
 
-    fun onPlaylistClick() {
-
+    fun onPlaylistClick(playlist: Playlist) {
+        (requireActivity() as PlaylistDetailStorage).setPlaylistDetail(playlist)
+        findNavController().navigate(R.id.action_mediaFragment_to_playlistDetailFragment)
     }
     companion object {
-        fun newInstance() = PlaylistFragment().apply { }
+        fun newInstance() = PlaylistFragment()
     }
 
 }

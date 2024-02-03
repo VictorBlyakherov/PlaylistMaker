@@ -17,9 +17,9 @@ import java.io.File
 import java.io.FileOutputStream
 import java.util.UUID.randomUUID
 
-class PlaylistAddFragmentViewModel(private val playlistInteractor: PlaylistInteractor): ViewModel() {
+open class PlaylistAddFragmentViewModel(private val playlistInteractor: PlaylistInteractor): ViewModel() {
 
-    private var fileName: String = ""
+    protected var fileName: String = ""
 
     fun addPlaylist(plName: String, plDescr: String) {
         viewModelScope.launch {
@@ -27,9 +27,6 @@ class PlaylistAddFragmentViewModel(private val playlistInteractor: PlaylistInter
             playlistInteractor.addPlaylist(pl)
 
         }
-
-
-
     }
 
     fun saveImageToPrivateStorage(uri: Uri, context:Context) {
@@ -55,8 +52,4 @@ class PlaylistAddFragmentViewModel(private val playlistInteractor: PlaylistInter
         fileName = fn
 
     }
-
-
-
-
 }

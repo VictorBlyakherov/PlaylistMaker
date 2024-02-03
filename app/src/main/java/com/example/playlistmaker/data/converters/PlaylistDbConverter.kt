@@ -11,23 +11,23 @@ import com.google.gson.reflect.TypeToken
 class PlaylistDbConverter {
     fun map(playlist: Playlist): PlaylistEntity {
         return PlaylistEntity(
-            playlist.playlistId,
-            playlist.playlistName,
-            playlist.playlistDescription,
-            playlist.coverFileName,
-            convertListToJson(playlist.trackIdList),
-            playlist.trackCount
+            playlistId = playlist.playlistId,
+            playlistName = playlist.playlistName,
+            playlistDescription = playlist.playlistDescription,
+            coverFileName = playlist.coverFileName,
+            trackIdList = convertListToJson(playlist.trackIdList),
+            trackCount = playlist.trackCount
         )
     }
 
     fun map(playlist: PlaylistEntity): Playlist {
         return Playlist(
-            playlist.playlistId,
-            playlist.playlistName,
-            playlist.playlistDescription,
-            playlist.coverFileName,
-            convertJsonToList(playlist.trackIdList),
-            playlist.trackCount
+            playlistId = playlist.playlistId,
+            playlistName = playlist.playlistName,
+            playlistDescription = playlist.playlistDescription,
+            coverFileName = playlist.coverFileName,
+            trackIdList = convertJsonToList(playlist.trackIdList),
+            trackCount = playlist.trackCount
         )
     }
 

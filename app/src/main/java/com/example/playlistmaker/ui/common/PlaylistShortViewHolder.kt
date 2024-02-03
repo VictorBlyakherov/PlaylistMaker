@@ -11,25 +11,23 @@ import com.example.playlistmaker.R
 import com.example.playlistmaker.data.model.Playlist
 import java.io.File
 
-class PlaylistShortViewHolder (itemView: View, context_: Context) : RecyclerView.ViewHolder(itemView) {
+class PlaylistShortViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val playlistCoverView: ImageView
     private val playlistNameView: TextView
     private val playlistTrackCountView: TextView
-    private val context: Context
     private val utils: Utils = Utils()
 
     init {
         playlistCoverView = itemView.findViewById(R.id.playlistShortCover)
         playlistNameView = itemView.findViewById(R.id.playlistShortName)
         playlistTrackCountView = itemView.findViewById(R.id.playlistShortTrackCount)
-        context = context_
     }
 
     fun bind(model: Playlist) {
         playlistNameView.text = model.playlistName
         playlistTrackCountView.text = utils.getTrackCountString(model.trackCount)
         val image = File(
-            context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+            itemView.context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
             "covers/" + model.coverFileName
         )
         if (!image.exists() or model.coverFileName.isEmpty()) {

@@ -156,7 +156,6 @@ class SearchViewModel(
                 delay(CLICK_DEBOUNCE_DELAY)
                 isClickAllowed = true
             }
-
         }
         return current
     }
