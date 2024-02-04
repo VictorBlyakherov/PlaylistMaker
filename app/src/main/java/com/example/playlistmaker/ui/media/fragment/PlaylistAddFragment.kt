@@ -119,7 +119,7 @@ open class PlaylistAddFragment: Fragment() {
     }
 
     private fun setAddButton() {
-        binding.addButton.isEnabled = binding.nameEditText.text.toString().isNotEmpty()
+        binding.addButton.isEnabled = binding.nameEditText.text.toString().trim().isNotEmpty()
     }
 
     private fun showDialog() {

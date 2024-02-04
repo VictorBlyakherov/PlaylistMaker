@@ -10,7 +10,10 @@ class PlaylistEditFragmentViewModel(private val playlistInteractor: PlaylistInte
 {
 
     fun savePlaylist(playlist: Playlist) {
-        playlist.coverFileName = fileName
+        if (!fileName.isNullOrEmpty())
+        {
+            playlist.coverFileName = fileName
+        }
         viewModelScope.launch {
             playlistInteractor.updatePlaylist(playlist)
         }

@@ -65,7 +65,7 @@ class PlaylistRepositoryImpl(
         val playlists = convertFromPlaylistEntity(appDatabase.playlistDao().getPlaylists())
         var isDelete = true
         for (playlist in playlists) {
-            val tempList = playlist.trackIdList as List<Long>
+            val tempList = playlist.trackIdList.map{it.toLong()}
             if (tempList.contains(track.trackId.toLong())) {
                 isDelete = false
                 break
