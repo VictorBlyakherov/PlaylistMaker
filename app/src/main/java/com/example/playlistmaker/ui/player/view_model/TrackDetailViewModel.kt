@@ -150,6 +150,7 @@ class TrackDetailViewModel(private val playTrackInteractor: PlayTrackInteractor,
     }
 
     fun addToPlaylist(playlist: Playlist) {
+
         var messageAdded = ""
         var isAdded = false
         val listTemp = playlist.trackIdList as MutableList<Long>
@@ -159,12 +160,8 @@ class TrackDetailViewModel(private val playTrackInteractor: PlayTrackInteractor,
             isAdded = false
         } else {
 
-            listTemp.add(track.value!!.trackId.toLong())
-            playlist.trackIdList = listTemp as List<Int>
-            playlist.trackCount = playlist.trackCount + 1
-
             viewModelScope.launch {
-                playlistInteractor.updatePlaylist(playlist)
+                playlistInteractor.addTrackToPlaylist(track.value!!, playlist)
             }
 
             isAdded = true

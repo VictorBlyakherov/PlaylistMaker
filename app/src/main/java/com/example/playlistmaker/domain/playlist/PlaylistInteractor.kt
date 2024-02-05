@@ -20,4 +20,10 @@ interface PlaylistInteractor {
 
     suspend fun addTrackToPlaylist(track: Track, playlist: Playlist)
 
+    suspend fun getPlaylistTrackList(tracksId: List<Int>): Flow<List<Track>>
+
+    suspend fun deleteTrackFromPlaylist(track: Track)
+
+    fun sharePlaylist(shareText: String)
+
 }

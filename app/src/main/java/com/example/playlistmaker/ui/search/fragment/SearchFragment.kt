@@ -1,16 +1,13 @@
 package com.example.playlistmaker.ui.search.fragment
 
 import android.os.Bundle
-
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.R
@@ -20,8 +17,6 @@ import com.example.playlistmaker.ui.common.TrackAdapter
 import com.example.playlistmaker.ui.common.TrackDetailStorage
 import com.example.playlistmaker.ui.search.view_model.SearchViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {

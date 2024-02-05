@@ -7,13 +7,37 @@ import com.example.playlistmaker.data.model.Track
 class PlaylistTrackDbConverter {
 
     fun map(track: Track): TrackPlaylistEntity {
-        return TrackPlaylistEntity(track.trackId, track.trackName, track.artistName, track.trackTimeMillis, track.artworkUrl100, track.collectionName,
-            track.releaseDate, track.primaryGenreName, track.country, track.previewUrl)
+        var vv = TrackPlaylistEntity(
+            trackId = track.trackId,
+            trackName = track.trackName,
+            artistName = track.artistName,
+            trackTimeMillis = track.trackTimeMillis,
+            artworkUrl100 = track.artworkUrl100,
+            collectionName = track.collectionName,
+            releaseDate = track.releaseDate,
+            primaryGenreName = track.primaryGenreName,
+            country = track.country,
+            previewUrl = track.previewUrl
+        )
+
+
+        return vv
     }
 
     fun map(track: TrackPlaylistEntity): Track {
-        return Track(track.trackId, track.trackName, track.artistName, track.trackTimeMillis, track.artworkUrl100, track.collectionName,
-            track.releaseDate, track.primaryGenreName, track.country, track.previewUrl, false)
+        return Track(
+            trackId = track.trackId,
+            trackName = track.trackName,
+            artistName = track.artistName,
+            trackTimeMillis = track.trackTimeMillis,
+            artworkUrl100 = track.artworkUrl100,
+            collectionName = track.collectionName,
+            releaseDate = track.releaseDate,
+            primaryGenreName = track.primaryGenreName,
+            country = track.country,
+            previewUrl = track.previewUrl,
+            isInFavorites = false
+        )
     }
 
 }

@@ -63,7 +63,6 @@ class TrackDetailFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         val fragmentActivity = getActivity();
 
         if (fragmentActivity != null) {
@@ -77,7 +76,6 @@ class TrackDetailFragment: Fragment() {
 
         trackDetailViewModel.preparePlayer((requireActivity() as TrackDetailStorage).getTrackDetail())
 
-
         binding.play.setOnClickListener {
             trackDetailViewModel.playbackControl()
         }
@@ -90,8 +88,6 @@ class TrackDetailFragment: Fragment() {
         binding.addPlaylistShortButton.setOnClickListener {
             findNavController().navigate(R.id.action_trackDetailFragment_to_playlistAddFragment)
         }
-
-
 
         trackDetailViewModel.track.observe(viewLifecycleOwner) { track ->
 
@@ -125,7 +121,6 @@ class TrackDetailFragment: Fragment() {
             Toast.makeText(requireContext(), it.second, Toast.LENGTH_LONG).show()
         }
 
-
         trackDetailViewModel.playingStatus.observe(viewLifecycleOwner) { it ->
             binding.play.isEnabled = true
             if (it == PlayingStatus.PLAY) {
@@ -142,7 +137,6 @@ class TrackDetailFragment: Fragment() {
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.addToPlaylistBottomSheet)
 
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-
 
         binding.addToPlayList.setOnClickListener {
             trackDetailViewModel.getPlaylists()
@@ -187,7 +181,7 @@ class TrackDetailFragment: Fragment() {
 
     private fun setElement(plList: List<Playlist>) {
         if (!plList.isNullOrEmpty()) {
-            adapter = PlaylistShortAdapter(plList, requireContext(), {onPlaylistClick(it)})
+            adapter = PlaylistShortAdapter(plList, {onPlaylistClick(it)})
             binding.playlistShortRecycleView.layoutManager = LinearLayoutManager(requireContext())
             binding.playlistShortRecycleView.adapter = adapter
             adapter.notifyDataSetChanged()

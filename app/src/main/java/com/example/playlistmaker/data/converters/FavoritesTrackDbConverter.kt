@@ -8,12 +8,34 @@ import java.time.ZoneOffset
 class FavoritesTrackDbConverter {
 
     fun map(track: Track): TrackFavoritesEntity {
-        return TrackFavoritesEntity(track.trackId, track.trackName, track.artistName, track.trackTimeMillis, track.artworkUrl100, track.collectionName,
-            track.releaseDate, track.primaryGenreName, track.country, track.previewUrl, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC))
+        return TrackFavoritesEntity(
+            trackId = track.trackId,
+            trackName = track.trackName,
+            artistName = track.artistName,
+            trackTimeMillis = track.trackTimeMillis,
+            artworkUrl100 = track.artworkUrl100,
+            collectionName = track.collectionName,
+            releaseDate = track.releaseDate,
+            primaryGenreName = track.primaryGenreName,
+            country = track.country,
+            previewUrl = track.previewUrl,
+            timeAdded = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+        )
     }
 
     fun map(track: TrackFavoritesEntity): Track {
-        return Track(track.trackId, track.trackName, track.artistName, track.trackTimeMillis, track.artworkUrl100, track.collectionName,
-            track.releaseDate, track.primaryGenreName, track.country, track.previewUrl, true)
+        return Track(
+            trackId = track.trackId,
+            trackName = track.trackName,
+            artistName = track.artistName,
+            trackTimeMillis = track.trackTimeMillis,
+            artworkUrl100 = track.artworkUrl100,
+            collectionName = track.collectionName,
+            releaseDate = track.releaseDate,
+            primaryGenreName = track.primaryGenreName,
+            country = track.country,
+            previewUrl = track.previewUrl,
+            isInFavorites = true
+        )
     }
 }

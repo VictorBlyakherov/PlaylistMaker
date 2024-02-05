@@ -47,6 +47,6 @@ val domainModule = module {
 
     single<FavoritesInteractor> { FavoritesInteractorImpl(get()) }
 
-    single<PlaylistInteractor> { PlaylistInteractorImpl(get()) }
+    single<PlaylistInteractor> { PlaylistInteractorImpl(get(), get()) }
 
 }

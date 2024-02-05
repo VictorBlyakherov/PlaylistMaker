@@ -24,19 +24,21 @@
 
     <TextView
         android:id="@+id/playlistName"
+        style="@style/dayNightNav"
         android:layout_width="wrap_content"
         android:layout_height="16dp"
         android:text=""
         android:textSize="12sp"
-        android:textColor="#1A1B22"
+
         android:visibility="visible" />
     <TextView
+        style="@style/dayNightNav"
         android:id="@+id/playlistTrackCount"
         android:layout_width="wrap_content"
         android:layout_height="16dp"
         android:text=""
         android:textSize="12sp"
-        android:textColor="#1A1B22"
+
         android:visibility="visible" />
 
 </LinearLayout>

@@ -23,15 +23,15 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class PlaylistAddFragment: Fragment() {
+open class PlaylistAddFragment: Fragment() {
 
     private var _binding: FragmentAddPlaylistBinding? = null
 
-    private val binding get() = _binding!!
+    protected open val binding get() = _binding!!
 
     private var imageChanged = false
 
-    private val playlistAddFragmentViewModel by viewModel<PlaylistAddFragmentViewModel>()
+    protected open val playlistAddFragmentViewModel by viewModel<PlaylistAddFragmentViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -115,11 +115,11 @@ class PlaylistAddFragment: Fragment() {
 
 
     companion object {
-        fun newInstance() = PlaylistAddFragment().apply { }
+        fun newInstance() = PlaylistAddFragment()
     }
 
     private fun setAddButton() {
-        binding.addButton.isEnabled = binding.nameEditText.text.toString().isNotEmpty()
+        binding.addButton.isEnabled = binding.nameEditText.text.toString().trim().isNotEmpty()
     }
 
     private fun showDialog() {
@@ -131,12 +131,12 @@ class PlaylistAddFragment: Fragment() {
         {
 
             MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Завершить создание плейлиста?")
-                .setMessage("Все несохраненные данные будут потеряны")
-                .setNeutralButton("Отмена") { dialog, which ->
+                .setTitle(getString(R.string.playlist_end))
+                .setMessage(getString(R.string.all_resources_will_be_lost))
+                .setNeutralButton(getString(R.string.cancel)) { dialog, which ->
 
                 }
-                .setNegativeButton("Завершить") { dialog, which ->
+                .setNegativeButton(getString(R.string.finish)) { dialog, which ->
                     findNavController().popBackStack()
                 }
                 .show()
@@ -145,6 +145,4 @@ class PlaylistAddFragment: Fragment() {
             findNavController().popBackStack()
         }
     }
-
-
 }

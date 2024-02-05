@@ -7,18 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
 import com.example.playlistmaker.data.model.Playlist
 
-class PlaylistShortAdapter (private val playlists: List<Playlist>, context_: Context, private val clickPlaylistListener: ClickPlaylistListener
-) : RecyclerView.Adapter<PlaylistShortViewHolder>() {
-
-    private val context: Context
-
-    init {
-        context = context_
-    }
+class PlaylistShortAdapter (private val playlists: List<Playlist>, private val clickPlaylistListener: ClickPlaylistListener) : RecyclerView.Adapter<PlaylistShortViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistShortViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.playlist_short_list, parent, false)
-        return PlaylistShortViewHolder(view, context)
+        return PlaylistShortViewHolder(view)
 
     }
 

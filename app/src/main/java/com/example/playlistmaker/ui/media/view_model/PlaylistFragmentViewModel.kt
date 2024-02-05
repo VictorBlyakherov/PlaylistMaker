@@ -16,10 +16,6 @@ class PlaylistFragmentViewModel(private val playlistInteractor: PlaylistInteract
     private var _playlistListMutable = MutableLiveData<List<Playlist>>()
     val playlistList: LiveData<List<Playlist>> = _playlistListMutable
 
-    init {
-
-    }
-
     fun getPlaylists() {
         viewModelScope.launch {
             playlistInteractor.getPlaylistList().collect { it ->
@@ -32,6 +28,4 @@ class PlaylistFragmentViewModel(private val playlistInteractor: PlaylistInteract
             }
         }
     }
-
-
 }

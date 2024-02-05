@@ -59,7 +59,7 @@ val dataModule = module {
     }
 
     single {
-        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database4.bd").fallbackToDestructiveMigration().build()
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database5.bd").fallbackToDestructiveMigration().build()
     }
 
     factory {

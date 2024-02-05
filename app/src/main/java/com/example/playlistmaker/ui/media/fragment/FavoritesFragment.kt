@@ -60,7 +60,7 @@ class FavoritesFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() = FavoritesFragment().apply { }
+        fun newInstance() = FavoritesFragment()
     }
 
     fun onTrackClick(trackId: Int) {
